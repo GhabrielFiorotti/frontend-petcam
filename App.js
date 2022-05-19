@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, StatusBar } from "react-native";
-import Home from "./screens/Home";
+import Home from "./screens/HomeApp";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Login from "./screens/Login";
@@ -13,6 +13,7 @@ import {
   Poppins_300Light,
 } from "@expo-google-fonts/poppins";
 import RegisterClient from "./screens/RegisterClient";
+import HomeClient from "./screens/HomeClient";
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ function MyStack() {
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="RegisterClient" component={RegisterClient} />
+      <Stack.Screen name="HomeClient" component={HomeClient} />
     </Stack.Navigator>
   );
 }
@@ -50,7 +52,7 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
+/* const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
@@ -58,3 +60,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+ */
