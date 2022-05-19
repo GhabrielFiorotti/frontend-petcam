@@ -3,6 +3,8 @@ import Home from "./screens/HomeApp";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Login from "./screens/Login";
+import HomePetShop from "./screens/HomePetShop"
+import SelectCameraImageLive from './screens/SelectCameraImageLive'
 import "react-native-gesture-handler";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
@@ -28,6 +30,9 @@ function MyStack() {
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="RegisterClient" component={RegisterClient} />
       <Stack.Screen name="HomeClient" component={HomeClient} />
+      <Stack.Screen name="HomePetShop" component={HomePetShop} />
+      <Stack.Screen name="SelectCameraImageLive" component={SelectCameraImageLive} />
+
     </Stack.Navigator>
   );
 }

@@ -11,7 +11,7 @@ export default function Home({navigation}) {
       index: 0,
       routes: [{name: "Login"}]
     }) */
-    navigation.navigate("HomeClient")
+    navigation.navigate("SelectCameraImageLive")
   }
 
   return (

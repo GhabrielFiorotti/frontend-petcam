@@ -29,4 +29,53 @@ const ImageQuestion = () => (
   />
 );
 
-export { ImageInit, ImageLogin, ImageRegister, ImageQuestion };
+const CameraPhoto = () => (
+  <Image
+    source={require("./cameraPhoto.jpg")}
+    style={{position: "absolute", height: "100%", width: "100%", borderRadius: 10}}
+  />
+);
+
+const AddClient = () => (
+  <Image
+    source={require("./addClient.png")}
+    style={{position: "absolute", height: "100%", width: "100%", borderRadius: 10}}
+  />
+);
+
+const RegisterPet = () => (
+  <Image
+    source={require("./registerPet.png")}
+    style={{position: "absolute", height: "100%", width: "100%", borderRadius: 10}}
+  />
+);
+
+const BlockedImage = () => (
+  <Image
+    source={require("./blockedImage.jpg")}
+    style={{position: "absolute", height: "100%", width: "100%", borderRadius: 10}}
+  />
+);
+
+const ShowCameras = () => (
+  <Image
+    source={require("./showCameras.jpg")}
+    style={{position: "absolute", height: "100%", width: "100%", borderRadius: 10}}
+  />
+);
+
+const ShowProfile = () => (
+  <Image
+    source={require("./showProfile.png")}
+    style={{position: "absolute", height: "100%", width: "100%", borderRadius: 10}}
+  />
+);
+
+const EditProfile = () => (
+  <Image
+    source={require("./editProfile.png")}
+    style={{position: "absolute", height: "100%", width: "100%", borderRadius: 10}}
+  />
+);
+
+export { ImageInit, ImageLogin, ImageRegister, ImageQuestion, CameraPhoto, AddClient, RegisterPet, BlockedImage, ShowCameras, ShowProfile, EditProfile };

@@ -17,37 +17,18 @@ import {
   SafeAreaView,
 } from "react-native";
 
+import { Appbar } from 'react-native-paper';
+
 export default function HomeClient({ navigation }) {
   return (
     <SafeAreaView>
       <View style={{ height: "13%", width: "100%" }}>
-        <Text
-          style={{
-            fontFamily: "PoppinsRegular",
-            fontSize: 18,
-            margin: 15,
-            color: "#000000",
-          }}
-        >
-          Olá, seja bem vindo.
-        </Text>
-
-        <ImageQuestion />
-
-        <Text
-          style={{
-            color: "#000000",
-            fontSize: 18,
-            marginBottom: 10,
-            fontFamily: "PoppinsRegular",
-            textAlign: "left",
-            left: 15,
-            right: 15,
-            marginTop: -10,
-          }}
-        >
-          Escolha umas das opções abaixo:
-        </Text>
+        <Appbar.Header>
+          <Appbar.BackAction onPress={_goBack} />
+          <Appbar.Content title="Title" subtitle="Subtitle" />
+          <Appbar.Action icon="magnify" onPress={_handleSearch} />
+          <Appbar.Action icon="dots-vertical" onPress={_handleMore} />
+        </Appbar.Header>
       </View>
       <ScrollView style={{ padding: 15, height: "87%" }}>
         <TouchableOpacity onPress={() => Alert.alert("Entrar clicado")}>
@@ -62,7 +43,7 @@ export default function HomeClient({ navigation }) {
                   fontFamily: "PoppinsRegular",
                   fontSize: 18,
                   padding: 20,
-                  padding: 10
+                  padding: 10,
                 }}
               >
                 Acessar imagens
@@ -81,7 +62,7 @@ export default function HomeClient({ navigation }) {
                   textAlign: "center",
                   fontFamily: "PoppinsRegular",
                   fontSize: 18,
-                  padding: 10
+                  padding: 10,
                 }}
               >
                 Alterar dados pessoais
@@ -100,7 +81,7 @@ export default function HomeClient({ navigation }) {
                   textAlign: "center",
                   fontFamily: "PoppinsRegular",
                   fontSize: 18,
-                  padding: 10
+                  padding: 10,
                 }}
               >
                 Visualizar gravação do último atendimento
@@ -119,7 +100,7 @@ export default function HomeClient({ navigation }) {
                   textAlign: "center",
                   fontFamily: "PoppinsRegular",
                   fontSize: 18,
-                  padding: 10
+                  padding: 10,
                 }}
               >
                 Perfil
