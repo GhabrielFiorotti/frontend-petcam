@@ -14,38 +14,21 @@ import {
 } from "react-native";
 
 import { Appbar } from "react-native-paper";
-import { Video } from "react-native-video";
+
+import { WebView } from 'react-native-webview'; 
 
 export default function ShowImageCameraLive({ route, navigation }) {
   const { name, url } = route.params;
 
   return (
     <SafeAreaView>
-      <Appbar.Header style={{ backgroundColor: "#d9d9d9" }}>
-        <Appbar.BackAction
-          style={{ alignItems: "center", paddingBottom: "10%" }}
-        />
-        <Appbar.Content
-          title={
-            <Text style={{ fontFamily: "PoppinsRegular", fontSize: 22 }}>
-              {name}
-            </Text>
-          }
-          style={{ marginLeft: -10, marginBottom: 10 }}
-        />
-      </Appbar.Header>
-      <View style={{ padding: 15, height: "87%", backgroundColor: "#d9d9d9" }}>
-        <Video
-          source={{
-            uri: "https://rtsp.me/embed/Q75hFn7E/",}}
-          rate={1.0}
-          volume={1.0}
-          muted={false}
-          resizeMode="cover"
-          shouldPlay
-          isLooping
-          style={{ width: 300, height: 300 }}
-        />
+      
+      <View style={{  height: "100%", backgroundColor: "#d9d9d9" }}>
+      
+      <WebView 
+        originWhitelist={['*']} 
+        source={{ html: `<iframe width="100%" height="100%" src="${url}" frameborder="0" allowfullscreen></iframe>` }} /> 
+        
       </View>
     </SafeAreaView>
   );
