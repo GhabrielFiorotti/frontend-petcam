@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  ImageQuestion,
-  CameraPhoto,
-  EditProfile,
-  ShowProfile,
-  ShowCameras,
-} from "../src/components/Images";
+import { CameraIcon } from "../src/components/Images";
 import {
   View,
   Text,
@@ -15,106 +9,112 @@ import {
   TouchableOpacity,
   ScrollView,
   SafeAreaView,
+  FlatList,
+  StatusBar,
 } from "react-native";
 
-import { Appbar } from 'react-native-paper';
+import { Appbar } from "react-native-paper";
+
+const json = [
+  {
+    id: "1",
+    name: "Recepção",
+    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
+    
+  },
+  {
+    id: "2",
+    name: "Lavagem",
+    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
+    
+  },
+  {
+    id: "3",
+    name: "Secagem",
+    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
+  },
+  {
+    id: "4",
+    name: "Setor teste 1",
+    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
+  },
+  {
+    id: "5",
+    name: "Setor teste 2",
+    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
+  },
+  {
+    id: "6",
+    name: "Setor teste 3",
+    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
+  },
+  {
+    id: "7",
+    name: "Setor teste 4",
+    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
+  },
+];
 
 export default function HomeClient({ navigation }) {
+
+  const goCamera = (nameCamera, urlRtsp) => {
+    navigation.navigate("ShowImageCameraLive", {
+      name: nameCamera,
+      url: urlRtsp
+    });
+  };
+
+  const Item = ({ name, urlRtsp }) => (
+    <View>
+      <TouchableOpacity onPress={() => goCamera(name, urlRtsp)}>
+        <View style={styles.viewBlock}>
+          <View style={{ flex: 3.5 }}>
+            <CameraIcon />
+          </View>
+          <View style={styles.viewColumRightBlock}>
+            <Text
+              style={{
+                textAlign: "center",
+                fontFamily: "PoppinsRegular",
+                fontSize: 18,
+                padding: 20,
+                padding: 10,
+              }}
+            >
+              {name}
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const renderItem = ({ item }) => <Item name={item.name} urlRtsp={item.urlRtsp} />;
+
   return (
     <SafeAreaView>
-      <View style={{ height: "13%", width: "100%" }}>
-        <Appbar.Header>
-          <Appbar.BackAction onPress={_goBack} />
-          <Appbar.Content title="Title" subtitle="Subtitle" />
-          <Appbar.Action icon="magnify" onPress={_handleSearch} />
-          <Appbar.Action icon="dots-vertical" onPress={_handleMore} />
-        </Appbar.Header>
-      </View>
-      <ScrollView style={{ padding: 15, height: "87%" }}>
-        <TouchableOpacity onPress={() => Alert.alert("Entrar clicado")}>
-          <View style={styles.viewBlock}>
-            <View style={{ flex: 3.5 }}>
-              <CameraPhoto />
-            </View>
-            <View style={styles.viewColumRightBlock}>
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontFamily: "PoppinsRegular",
-                  fontSize: 18,
-                  padding: 20,
-                  padding: 10,
-                }}
-              >
-                Acessar imagens
-              </Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => Alert.alert("Entrar clicado")}>
-          <View style={styles.viewBlock}>
-            <View style={{ flex: 3.5 }}>
-              <EditProfile />
-            </View>
-            <View style={styles.viewColumRightBlock}>
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontFamily: "PoppinsRegular",
-                  fontSize: 18,
-                  padding: 10,
-                }}
-              >
-                Alterar dados pessoais
-              </Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => Alert.alert("Entrar clicado")}>
-          <View style={styles.viewBlock}>
-            <View style={{ flex: 3.5 }}>
-              <ShowCameras />
-            </View>
-            <View style={styles.viewColumRightBlock}>
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontFamily: "PoppinsRegular",
-                  fontSize: 18,
-                  padding: 10,
-                }}
-              >
-                Visualizar gravação do último atendimento
-              </Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => Alert.alert("Entrar clicado")}>
-          <View style={styles.viewBlock}>
-            <View style={{ flex: 3.5 }}>
-              <ShowProfile />
-            </View>
-            <View style={styles.viewColumRightBlock}>
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontFamily: "PoppinsRegular",
-                  fontSize: 18,
-                  padding: 10,
-                }}
-              >
-                Perfil
-              </Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <Pressable
-          style={styles.button}
+      <Appbar.Header style={{ backgroundColor: "#d9d9d9" }}>
+        <Appbar.BackAction
+          style={{ alignItems: "center", paddingBottom: "10%" }}
           onPress={() => Alert.alert("Entrar clicado")}
-        >
-          <Text style={styles.text}>Fazer logout</Text>
-        </Pressable>
-      </ScrollView>
+          
+        />
+        <Appbar.Content
+          title={
+            <Text style={{ fontFamily: "PoppinsRegular", fontSize: 22 }}>
+              Câmeras do PetShop
+            </Text>
+          }
+          style={{ marginLeft: -10, marginBottom: 10 }}
+        />
+      </Appbar.Header>
+      <SafeAreaView style={{ padding: 15, height: "87%" }}>
+        <FlatList
+          data={json}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
+      </SafeAreaView>
     </SafeAreaView>
   );
 }

@@ -16,6 +16,7 @@ import {
 } from "@expo-google-fonts/poppins";
 import RegisterClient from "./screens/RegisterClient";
 import HomeClient from "./screens/HomeClient";
+import ShowImageCameraLive from "./screens/ShowImageCameraLive"
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,7 @@ function MyStack() {
       <Stack.Screen name="HomeClient" component={HomeClient} />
       <Stack.Screen name="HomePetShop" component={HomePetShop} />
       <Stack.Screen name="SelectCameraImageLive" component={SelectCameraImageLive} />
+      <Stack.Screen name="ShowImageCameraLive" component={ShowImageCameraLive} />
 
     </Stack.Navigator>
   );

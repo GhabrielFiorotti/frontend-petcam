@@ -78,4 +78,12 @@ const EditProfile = () => (
   />
 );
 
-export { ImageInit, ImageLogin, ImageRegister, ImageQuestion, CameraPhoto, AddClient, RegisterPet, BlockedImage, ShowCameras, ShowProfile, EditProfile };
+const CameraIcon = () => (
+  <Image
+    source={require("./cameraIcon.png")}
+    style={{position: "absolute", height: "100%", width: "100%", borderRadius: 10}}
+  />
+);
+
+
+export { ImageInit, ImageLogin, ImageRegister, ImageQuestion, CameraPhoto, AddClient, RegisterPet, BlockedImage, ShowCameras, ShowProfile, EditProfile, CameraIcon };
