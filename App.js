@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, StatusBar } from "react-native";
+import { StatusBar } from "react-native";
 import Home from "./screens/HomeApp";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -17,6 +17,9 @@ import {
 import RegisterClient from "./screens/RegisterClient";
 import HomeClient from "./screens/HomeClient";
 import ShowImageCameraLive from "./screens/ShowImageCameraLive"
+import ShowImageCameraRecorder from "./screens/ShowImageCameraRecorder";
+import SelectAnimalClientImageRecorder from './screens/SelectAnimalClientImageRecorder'
+import SelectCameraImageRecorder from "./screens/SelectCameraImageRecorder";
 
 const Stack = createStackNavigator();
 
@@ -34,7 +37,9 @@ function MyStack() {
       <Stack.Screen name="HomePetShop" component={HomePetShop} />
       <Stack.Screen name="SelectCameraImageLive" component={SelectCameraImageLive} />
       <Stack.Screen name="ShowImageCameraLive" component={ShowImageCameraLive} />
-
+      <Stack.Screen name="ShowImageCameraRecorder" component={ShowImageCameraRecorder} />
+      <Stack.Screen name="SelectAnimalClientImageRecorder" component={SelectAnimalClientImageRecorder} />
+      <Stack.Screen name="SelectCameraImageRecorder" component={SelectCameraImageRecorder} />
     </Stack.Navigator>
   );
 }
@@ -52,19 +57,9 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer >
       <MyStack />
       <StatusBar backgroundColor="#6594FE" />
     </NavigationContainer>
   );
 }
-
-/* const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
- */

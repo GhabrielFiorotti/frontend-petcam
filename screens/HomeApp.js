@@ -7,11 +7,7 @@ import { ImageInit } from "../src/components/Images";
 export default function Home({navigation}) {
   
   const goLogin = () =>{
-    /* navigation.reset({
-      index: 0,
-      routes: [{name: "Login"}]
-    }) */
-    navigation.navigate("SelectCameraImageLive")
+    navigation.navigate("SelectAnimalClientImageRecorder")
   }
 
   return (
