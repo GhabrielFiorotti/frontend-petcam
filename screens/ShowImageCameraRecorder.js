@@ -14,13 +14,15 @@ import { Video } from 'expo-av';
 
 import AWS from "aws-sdk";
 
+import config from "./../config.js"
+
 const {width, height}= Dimensions.get('window')
 
 export default function ShowImageCameraRecorder({ route, navigation }) {
   AWS.config.update({
-    accessKeyId: "AKIAVO6NUIAZEBCJKYEA",
-    secretAccessKey: "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",
-    region: "sa-east-1",
+    accessKeyId: config.AWS_KEY,
+    secretAccessKey: config.AWS_SECRET_KEY,
+    region: "sa-east-1"
   });
 
   const s3 = new AWS.S3({ apiVersion: "2006-03-01" });

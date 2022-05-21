@@ -1,5 +1,4 @@
 import React from "react";
-import { CameraIcon } from "../src/components/Images";
 import {
   View,
   Text,
@@ -16,6 +15,8 @@ import {
 import { Appbar } from "react-native-paper";
 
 import SelectDropdown from "react-native-select-dropdown";
+
+
 
 export default function SelectAnimalClientImageRecorder({ navigation }) {
 
