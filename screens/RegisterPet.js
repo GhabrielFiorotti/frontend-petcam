@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -11,15 +11,104 @@ import {
 } from "react-native";
 import { ImageInit } from "../src/components/Images";
 import { Appbar } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios"
 
 export default function RegisterPet({ navigation }) {
   const goBack = () => {
     navigation.goBack();
   };
 
-  const goHomePetShopAndCreatePet = ()=>{
-    navigation.navigate("HomePetShop");
+  const [name, setName] = useState("");
+  const [gender, setGender] = useState("");
+  const [userOwner, setUserOwner] = useState("");
+  const [breed, setBreed] = useState("");
+
+  const [notFilledFields, setNotFilledFields] = useState("");
+  const [errorApi, setErrorApi] = useState("");
+  const [userNotExist, setUserNotExist] = useState("");
+
+  async function registerPet(name, gender, id_cliente, breed) {
+    const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
+    var data = JSON.stringify({
+      id_cliente: id_cliente,
+      nome: name,
+      raca: gender,
+      sexo: breed,
+    });
+
+    var config = {
+      method: "post",
+      url: "http://cameratcc.ddns.net:3000/petshop/pet",
+      headers: {
+        Authorization: `Bearer ${dataCache.token}`,
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    var response = axios(config)
+      .then(function (response) {
+        return true;
+      })
+      .catch(function (error) {
+        return false;
+      });
+    return response;
   }
+
+  async function verifyUser(user) {
+    const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
+    var config = {
+      method: "get",
+      url: `http://cameratcc.ddns.net:3000/users/${user}`,
+      headers: {
+        Authorization: `Bearer ${dataCache.token}`,
+      },
+    };
+
+    var responseVerifyUser = await axios(config)
+      .then(function (response) {
+        return response;
+      })
+      .catch(function (error) {
+        return false;
+      });
+
+    return responseVerifyUser;
+  }
+
+  const goHomePetShopAndCreatePet = async (name, gender, userOwner, breed) => {
+
+    if ((name != "") & (gender != "") & (userOwner != "") & (breed != "")) {
+
+      const verifyUsers = await verifyUser(userOwner);
+
+      if (verifyUsers == false) {
+        setNotFilledFields(false);
+        setErrorApi(false);
+        setUserNotExist(true);
+      } else {
+
+        var responseCreate = await registerPet(
+          name,
+          gender,
+          verifyUsers.data.id_cliente,
+          breed
+        );
+
+        if (responseCreate == false) {
+          setNotFilledFields(false);
+          setUserNotExist(false);
+          setErrorApi(true);
+        } else navigation.navigate("HomePetShop");
+      }
+    } else {
+      setNotFilledFields(true);
+      setUserNotExist(false);
+      setErrorApi(false);
+    }
+  };
 
   return (
     <View style={{ backgroundColor: "#FFFFFF", flex: 1 }}>
@@ -49,7 +138,7 @@ export default function RegisterPet({ navigation }) {
             style={styles.TextInput}
             placeholder="nome"
             placeholderTextColor="#6594FE"
-            onChangeText={(email) => setEmail(email)}
+            onChangeText={(name) => setName(name)}
           />
         </View>
         <View style={styles.inputView}>
@@ -57,15 +146,7 @@ export default function RegisterPet({ navigation }) {
             style={styles.TextInput}
             placeholder="sexo"
             placeholderTextColor="#6594FE"
-            onChangeText={(email) => setEmail(email)}
-          />
-        </View>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="data de nascimento"
-            placeholderTextColor="#6594FE"
-            onChangeText={(email) => setEmail(email)}
+            onChangeText={(gender) => setGender(gender)}
           />
         </View>
         <View style={styles.inputView}>
@@ -73,7 +154,7 @@ export default function RegisterPet({ navigation }) {
             style={styles.TextInput}
             placeholder="usuário do dono"
             placeholderTextColor="#6594FE"
-            onChangeText={(email) => setEmail(email)}
+            onChangeText={(userOwner) => setUserOwner(userOwner)}
           />
         </View>
         <View style={styles.inputView}>
@@ -81,13 +162,24 @@ export default function RegisterPet({ navigation }) {
             style={styles.TextInput}
             placeholder="raça"
             placeholderTextColor="#6594FE"
-            onChangeText={(email) => setEmail(email)}
+            onChangeText={(breed) => setBreed(breed)}
           />
         </View>
       </View>
+      {notFilledFields ? (
+        <Text style={styles.textError}>Preencha todos os campos</Text>
+      ) : null}
+      {errorApi ? (
+        <Text style={styles.textError}>Erro, tente novamente mais tarde</Text>
+      ) : null}
+      {userNotExist ? (
+        <Text style={styles.textError}>Usuário do dono não existe</Text>
+      ) : null}
       <Pressable
         style={styles.button}
-        onPress={() => goHomePetShopAndCreatePet()}
+        onPress={() =>
+          goHomePetShopAndCreatePet(name, gender, userOwner, breed)
+        }
       >
         <Text style={styles.textButton}>Criar</Text>
       </Pressable>
@@ -108,6 +200,15 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     color: "white",
   },
+  textError: {
+    paddingTop: 30,
+    color: "#F33D3D",
+    fontFamily: "PoppinsSemiBold",
+    fontSize: 18,
+    marginTop: 20,
+    marginBottom: -30,
+    textAlign: "center",
+  },
   button: {
     top: 75,
     alignSelf: "center",
@@ -126,7 +227,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  textHeader:{
+  textHeader: {
     width: "90%",
     height: 45,
     marginTop: 50,

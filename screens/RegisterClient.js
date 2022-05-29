@@ -14,60 +14,53 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import axios from "axios";
 
-function dateActual() {
-  var data = new Date(),
-    dia = data.getDate().toString().padStart(2, "0"),
-    mes = (data.getMonth() + 1).toString().padStart(2, "0"), //+1 pois no getMonth Janeiro começa com zero.
-    ano = data.getFullYear();
-  return dia + "/" + mes + "/" + ano;
-}
-
-async function registerClient(fullName, user, email, password) {
-  console.log(fullName);
-  console.log(user);
-  console.log(email);
-  console.log(password);
-
-  const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
-
-  var data = JSON.stringify({
-    email: email,
-    password: password,
-    nome_usuario: user,
-    nome: fullName,
-    data_criacao: await dateActual(),
-    tipo_usuario: "C",
-  });
-
-  var config = {
-    method: "post",
-    url: "http://cameratcc.ddns.net:3000/users/signup",
-    headers: {
-      Authorization: `Bearer ${dataCache.token}`,
-      "Content-Type": "application/json",
-    },
-    data: data,
-  };
-
-  axios(config)
-    .then(function (response) {
-      console.log(JSON.stringify(response.data));
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  return true;
-}
-
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [user, setUser] = useState("");
 
-  const [filledFields, setFilledFields] = useState("");
+  const [notFilledFields, setNotFilledFields] = useState("");
+  const [errorApi, setErrorApi] = useState("");
 
   const navigation = useNavigation();
+
+
+
+  async function registerClient(fullName, user, email, password) {
+  
+    const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
+  
+    var data = JSON.stringify({
+      email: email,
+      password: password,
+      nome_usuario: user,
+      nome: fullName,
+      tipo_usuario: "C",
+    });
+  
+    var config = {
+      method: "post",
+      url: "http://cameratcc.ddns.net:3000/users/signup",
+      headers: {
+        Authorization: `Bearer ${dataCache.token}`,
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+  
+    var response = axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        return true;
+      })
+      .catch(function (error) {
+        return false;
+      });
+      return response;
+  }
+  
+
 
   const goHomePetShopandCreateClient = async ( fullName, user, email, password ) => {
     if ((fullName != "") & (user != "") & (email != "") & (password != "")) {
@@ -77,19 +70,23 @@ export default function Login() {
         email,
         password
       );
-      console.log(responseCreate);
 
-      navigation.navigate("HomePetShop");
+      if(responseCreate == false){
+        setNotFilledFields(false)
+        setErrorApi(true)
+      }
+      else
+        navigation.navigate("HomePetShop");
     }
     else{
-      setFilledFields(true);
+      setNotFilledFields(true);
     }
   };
 
   return (
     <View style={styles.containerPhoto}>
       <ImageRegister />
-      {filledFields ? (
+      {notFilledFields ? (
         <Text
           style={{
             color: "#F33D3D",
@@ -100,6 +97,19 @@ export default function Login() {
           }}
         >
           Preencha todos os campos
+        </Text>
+      ) : null}
+      {errorApi ? (
+        <Text
+          style={{
+            color: "#F33D3D",
+            fontFamily: "PoppinsSemiBold",
+            fontSize: 18,
+            marginTop: 20,
+            marginBottom: -30,
+          }}
+        >
+          Usuário existente no sistema
         </Text>
       ) : null}
       <View style={styles.inputView}>
