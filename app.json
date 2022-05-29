@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "my-project",
+    "name": "Petcam",
     "slug": "my-project",
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/iconPetCam.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

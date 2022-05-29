@@ -8,41 +8,50 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { Input } from "react-native-elements";
 import { ImageLogin } from "../src/components/Images";
-import AppLoading from "expo-app-loading";
-import { color } from "react-native-elements/dist/helpers";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import axios from "axios";
 
-//const [email, setEmail] = useState(null)
-//const [password, setPassword] = useState(null)
 
 export default function Login({ navigation }) {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  
 
   const goLoginPetShop = () => {
     navigation.navigate("LoginPetShop");
   };
 
+  //const [successfulLogin, setLogin] = useState();
+
   async function  validLogin(){
-    /* const response = await axios.post(`http://localhost:3000/users/login`, {
-      nome_usuario: "ghabriel.fiorotti",
-      password: "123",
+
+    var responseAxios = await axios.post('http://192.168.0.6:3000/users/login', {
+      nome_usuario: username,
+      password: password,
       tipo_usuario:"C"
+    })
+    .then(function (response) {
+      AsyncStorage.setItem('DATA_KEY', JSON.stringify(response.data));
+      return true;
+      
+    })
+    .catch(function (error) {
+      return false;
     });
-    console.log(response) */
-    return false;
+    return responseAxios
   }
 
-  const goHomeClient = async (email, password) => {
+  const goHomeClient = async (username, password) => {
     
-    const response = await validLogin();
-    console.log(response)
+    var response = await validLogin(username, password);
 
-    if (response == true) {
+    const data = await AsyncStorage.getItem('DATA_KEY');
+
+    if (response == false) {
       setError(true);
     } else {
       setError(false);
@@ -71,7 +80,7 @@ export default function Login({ navigation }) {
           style={styles.TextInput}
           placeholder="usuário"
           placeholderTextColor="#6594FE"
-          onChangeText={(email) => setEmail(email)}
+          onChangeText={(username) => setUsername(username)}
         />
       </View>
 
@@ -84,7 +93,7 @@ export default function Login({ navigation }) {
           onChangeText={(password) => setPassword(password)}
         />
       </View>
-      <Pressable style={styles.button} onPress={() => goHomeClient(email, password)}>
+      <Pressable style={styles.button} onPress={() => goHomeClient(username, password)}>
         <Text style={styles.textButton}>Entrar</Text>
       </Pressable>
       <Text
