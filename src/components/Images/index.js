@@ -11,14 +11,14 @@ const ImageInit = () => (
 const ImageLogin = () => (
   <Image
     source={require("./imageLogin.png")}
-    style={{ width: "73%", height: "40%" }}
+    style={{ width: "73%", height: "40%", marginTop: -35 }}
   />
 );
 
 const ImageRegister = () => (
   <Image
     source={require("./imageRegisterClient.png")}
-    style={{ width: "68%", height: "38%", top: "0%", marginBottom: "-7%" }}
+    style={{ width: "68%", height: "38%", marginBottom: "-7%", marginTop: -80 }}
   />
 );
 

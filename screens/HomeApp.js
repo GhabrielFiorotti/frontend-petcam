@@ -30,6 +30,7 @@ export default function Home({navigation}) {
           fontSize: 30,
           fontFamily: "ArchitectsDaughter",
           textAlign: "center",
+          marginHorizontal: 18
         }}
       >
         Aumente a segurança dos seus pets
@@ -52,7 +53,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 8.5,
     borderRadius: 12,
     backgroundColor: "#6594FE",
-    width: 350,
+    width: 330,
   },
   text: {
     fontFamily: "PoppinsRegular",

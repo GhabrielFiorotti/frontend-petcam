@@ -8,33 +8,75 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { Input } from "react-native-elements";
 import { ImageLogin } from "../src/components/Images";
-import AppLoading from "expo-app-loading";
-import { color } from "react-native-elements/dist/helpers";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 //const [email, setEmail] = useState(null)
 //const [password, setPassword] = useState(null)
 
 export default function LoginPetShop({navigation}) {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const [error, setError] = useState("");
+
   
-  const goHomePetShop = () =>{
-    console.log(email, password)
-    navigation.navigate("HomePetShop")
+  async function  validLogin(){
+
+    var responseAxios = await axios.post('http://cameratcc.ddns.net:3000/users/login', {
+      nome_usuario: username,
+      password: password,
+      tipo_usuario:"P"
+    })
+    .then(function (response) {
+      AsyncStorage.setItem('DATA_KEY', JSON.stringify(response.data));
+      return true;
+      
+    })
+    .catch(function (error) {
+      return false;
+    });
+    return responseAxios
   }
+
+  const validLoginAndHomePetShop = async (username, password) => {
+    
+    var response = await validLogin(username, password);
+
+    
+
+    if (response == false) {
+      setError(true);
+    } else {
+      setError(false);
+      navigation.navigate("HomePetShop");
+    }
+  };
+
 
   return (
     <View style={styles.containerPhoto}>
       <ImageLogin />
+      {error ? (
+        <Text
+          style={{
+            color: "#F33D3D",
+            fontFamily: "PoppinsSemiBold",
+            fontSize: 18,
+            marginTop: -20,
+            marginBottom: -20,
+          }}
+        >
+          Usuário ou senha inválidos
+        </Text>
+      ) : null}
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
-          placeholder="email"
+          placeholder="nome de usuário"
           placeholderTextColor="#6594FE"
-          onChangeText={(email) => setEmail(email)}
+          onChangeText={(username) => setUsername(username)}
         />
       </View>
 
@@ -49,7 +91,7 @@ export default function LoginPetShop({navigation}) {
       </View>
       <Pressable
         style={styles.button}
-        onPress={() => goHomePetShop()}
+        onPress={() => validLoginAndHomePetShop(username, password)}
       >
         <Text style={styles.textButton}>Entrar</Text>
       </Pressable>
@@ -59,7 +101,8 @@ export default function LoginPetShop({navigation}) {
           fontSize: 18,
           fontFamily: "PoppinsLight",
           top: 75,
-          textAlign: "center"
+          textAlign: "center",
+          marginHorizontal: 20
         }}
       >
         Não tem uma conta? Entre em contato com o administrador do sistema

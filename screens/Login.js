@@ -29,7 +29,7 @@ export default function Login({ navigation }) {
 
   async function  validLogin(){
 
-    var responseAxios = await axios.post('http://192.168.0.6:3000/users/login', {
+    var responseAxios = await axios.post('http://cameratcc.ddns.net:3000/users/login', {
       nome_usuario: username,
       password: password,
       tipo_usuario:"C"
@@ -45,7 +45,7 @@ export default function Login({ navigation }) {
     return responseAxios
   }
 
-  const goHomeClient = async (username, password) => {
+  const validLoginAndHomeClient = async (username, password) => {
     
     var response = await validLogin(username, password);
 
@@ -93,7 +93,7 @@ export default function Login({ navigation }) {
           onChangeText={(password) => setPassword(password)}
         />
       </View>
-      <Pressable style={styles.button} onPress={() => goHomeClient(username, password)}>
+      <Pressable style={styles.button} onPress={() => validLoginAndHomeClient(username, password)}>
         <Text style={styles.textButton}>Entrar</Text>
       </Pressable>
       <Text
@@ -102,6 +102,8 @@ export default function Login({ navigation }) {
           fontSize: 18,
           fontFamily: "PoppinsLight",
           top: 75,
+          textAlign: "center",
+          marginHorizontal: 10
         }}
       >
         Não tem uma conta? Solicite ao Pet shop

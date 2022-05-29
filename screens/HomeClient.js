@@ -27,8 +27,8 @@ export default function HomeClient({ navigation }) {
   const goSelectAnimalClientImageRecorder = () => {
     navigation.navigate("SelectAnimalClientImageRecorder");
   };
-  const goLogin = () => {
-    navigation.navigate("Login");
+  const goHome = () => {
+    navigation.navigate("Home");
   };
   const goHomeHelp = () => {
     navigation.navigate("HomeHelp");
@@ -125,7 +125,7 @@ export default function HomeClient({ navigation }) {
             </View>
           </View>
         </TouchableOpacity>
-        <Pressable style={styles.button} onPress={() => goLogin()}>
+        <Pressable style={styles.button} onPress={() => goHome()}>
           <Text style={styles.text}>Fazer logout</Text>
         </Pressable>
       </ScrollView>

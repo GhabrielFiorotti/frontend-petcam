@@ -31,8 +31,8 @@ export default function HomePetShop({ navigation }) {
   const goBlockImageClient = () => {
     navigation.navigate("BlockImageClient");
   };
-  const goLogin = () => {
-    navigation.navigate("Login");
+  const goHome = () => {
+    navigation.navigate("Home");
   };
   const goHomeHelp = () => {
     navigation.navigate("HomeHelp");
@@ -40,6 +40,8 @@ export default function HomePetShop({ navigation }) {
   const goListCamerasPetShop = () => {
     navigation.navigate("ListCamerasPetShop");
   };
+
+
 
 
   return (
@@ -173,7 +175,7 @@ export default function HomePetShop({ navigation }) {
         </TouchableOpacity>
         <Pressable
           style={styles.button}
-          onPress={() => goLogin()}
+          onPress={() => goHome()}
         >
           <Text style={styles.text}>Fazer logout</Text>
         </Pressable>
