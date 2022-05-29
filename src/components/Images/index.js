@@ -25,7 +25,7 @@ const ImageRegister = () => (
 const ImageQuestion = () => (
   <Image
     source={require("./question.png")}
-    style={{position: "absolute", height: 38, width: 38, right: 15, top: 15}}
+    style={{ height: 38, width: 38}}
   />
 );
 

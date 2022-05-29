@@ -13,63 +13,26 @@ import { ImageLogin } from "../src/components/Images";
 import AppLoading from "expo-app-loading";
 import { color } from "react-native-elements/dist/helpers";
 
-import axios from "axios";
-
 //const [email, setEmail] = useState(null)
 //const [password, setPassword] = useState(null)
 
-export default function Login({ navigation }) {
+export default function LoginPetShop({navigation}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
-  const goLoginPetShop = () => {
-    navigation.navigate("LoginPetShop");
-  };
-
-  async function  validLogin(){
-    /* const response = await axios.post(`http://localhost:3000/users/login`, {
-      nome_usuario: "ghabriel.fiorotti",
-      password: "123",
-      tipo_usuario:"C"
-    });
-    console.log(response) */
-    return false;
+  
+  const goHomePetShop = () =>{
+    console.log(email, password)
+    navigation.navigate("HomePetShop")
   }
-
-  const goHomeClient = async (email, password) => {
-    
-    const response = await validLogin();
-    console.log(response)
-
-    if (response == true) {
-      setError(true);
-    } else {
-      setError(false);
-      navigation.navigate("HomeClient");
-    }
-  };
 
   return (
     <View style={styles.containerPhoto}>
       <ImageLogin />
-      {error ? (
-        <Text
-          style={{
-            color: "#F33D3D",
-            fontFamily: "PoppinsSemiBold",
-            fontSize: 18,
-            marginTop: -20,
-            marginBottom: -20,
-          }}
-        >
-          Usuário ou senha inválidos
-        </Text>
-      ) : null}
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
-          placeholder="usuário"
+          placeholder="email"
           placeholderTextColor="#6594FE"
           onChangeText={(email) => setEmail(email)}
         />
@@ -84,7 +47,10 @@ export default function Login({ navigation }) {
           onChangeText={(password) => setPassword(password)}
         />
       </View>
-      <Pressable style={styles.button} onPress={() => goHomeClient(email, password)}>
+      <Pressable
+        style={styles.button}
+        onPress={() => goHomePetShop()}
+      >
         <Text style={styles.textButton}>Entrar</Text>
       </Pressable>
       <Text
@@ -93,22 +59,11 @@ export default function Login({ navigation }) {
           fontSize: 18,
           fontFamily: "PoppinsLight",
           top: 75,
+          textAlign: "center"
         }}
       >
-        Não tem uma conta? Solicite ao Pet shop
+        Não tem uma conta? Entre em contato com o administrador do sistema
       </Text>
-      <TouchableOpacity style={{ top: "10%" }} onPress={() => goHomeHelp()}>
-        <Text
-          style={{
-            color: "#6594FE",
-            fontSize: 18,
-            fontFamily: "PoppinsSemiBold",
-          }}
-          onPress={() => goLoginPetShop()}
-        >
-          Fazer login como Pet shop
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -137,7 +92,7 @@ export const styles = StyleSheet.create({
   form: {
     fontFamily: "PoppinsRegular",
     fontSize: 18,
-    top: 70,
+    top: 90,
     color: "#6594FE",
   },
   TextInput: {

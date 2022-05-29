@@ -10,19 +10,21 @@ import {
 } from "react-native";
 import { ImageRegister } from "../src/components/Images";
 
+export default function EditProfileClient({ navigation }) {
+  const goBack = () => {
+    navigation.goBack();
+  };
 
-//const [email, setEmail] = useState(null)
-//const [password, setPassword] = useState(null)
-
-export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [user, setUser] = useState("");
 
-  const goHomePetShopandCreateClient = () => {
+  const saveInfo = () => {
+    console.log(email)
     navigation.navigate("HomeClient");
   };
+
 
   return (
     <View style={styles.containerPhoto}>
@@ -65,9 +67,9 @@ export default function Login() {
 
       <Pressable
         style={styles.button}
-        onPress={() => goHomePetShopandCreateClient()}
+        onPress={() => saveInfo()}
       >
-        <Text style={styles.textButton}>Criar</Text>
+        <Text style={styles.textButton}>Atualizar</Text>
       </Pressable>
     </View>
   );
@@ -75,7 +77,7 @@ export default function Login() {
 
 export const styles = StyleSheet.create({
   button: {
-    top: 75,
+    top: 50,
     alignSelf: "center",
     alignItems: "center",
     paddingVertical: 8.5,

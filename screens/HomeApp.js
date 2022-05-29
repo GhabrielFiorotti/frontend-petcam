@@ -7,8 +7,9 @@ import { ImageInit } from "../src/components/Images";
 export default function Home({navigation}) {
   
   const goLogin = () =>{
-    navigation.navigate("SelectAnimalClientImageRecorder")
+    navigation.navigate("Login")
   }
+
 
   return (
     <View style= {styles.containerPhoto}>

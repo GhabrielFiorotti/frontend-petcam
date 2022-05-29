@@ -18,6 +18,22 @@ import {
 } from "react-native";
 
 export default function HomeClient({ navigation }) {
+  const goSelectCameraImageLive = () => {
+    navigation.navigate("SelectCameraImageLive");
+  };
+  const goEditProfileClient = () => {
+    navigation.navigate("EditProfileClient");
+  };
+  const goSelectAnimalClientImageRecorder = () => {
+    navigation.navigate("SelectAnimalClientImageRecorder");
+  };
+  const goLogin = () => {
+    navigation.navigate("Login");
+  };
+  const goHomeHelp = () => {
+    navigation.navigate("HomeHelp");
+  };
+
   return (
     <SafeAreaView>
       <View style={{ height: "13%", width: "100%" }}>
@@ -31,8 +47,9 @@ export default function HomeClient({ navigation }) {
         >
           Olá, seja bem vindo.
         </Text>
-
-        <ImageQuestion />
+        <TouchableOpacity style={{position: "absolute", height: 38, width: 38, right: 15, top: 15}} onPress={() => goHomeHelp()}>
+          <ImageQuestion />
+        </TouchableOpacity>
 
         <Text
           style={{
@@ -50,7 +67,7 @@ export default function HomeClient({ navigation }) {
         </Text>
       </View>
       <ScrollView style={{ padding: 15, height: "87%" }}>
-        <TouchableOpacity onPress={() => Alert.alert("Entrar clicado")}>
+        <TouchableOpacity onPress={() => goSelectCameraImageLive()}>
           <View style={styles.viewBlock}>
             <View style={{ flex: 3.5 }}>
               <CameraPhoto />
@@ -62,7 +79,7 @@ export default function HomeClient({ navigation }) {
                   fontFamily: "PoppinsRegular",
                   fontSize: 18,
                   padding: 20,
-                  padding: 10
+                  padding: 10,
                 }}
               >
                 Acessar imagens
@@ -70,7 +87,7 @@ export default function HomeClient({ navigation }) {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => Alert.alert("Entrar clicado")}>
+        <TouchableOpacity onPress={() => goEditProfileClient()}>
           <View style={styles.viewBlock}>
             <View style={{ flex: 3.5 }}>
               <EditProfile />
@@ -81,7 +98,7 @@ export default function HomeClient({ navigation }) {
                   textAlign: "center",
                   fontFamily: "PoppinsRegular",
                   fontSize: 18,
-                  padding: 10
+                  padding: 10,
                 }}
               >
                 Alterar dados pessoais
@@ -89,7 +106,7 @@ export default function HomeClient({ navigation }) {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => Alert.alert("Entrar clicado")}>
+        <TouchableOpacity onPress={() => goSelectAnimalClientImageRecorder()}>
           <View style={styles.viewBlock}>
             <View style={{ flex: 3.5 }}>
               <ShowCameras />
@@ -100,7 +117,7 @@ export default function HomeClient({ navigation }) {
                   textAlign: "center",
                   fontFamily: "PoppinsRegular",
                   fontSize: 18,
-                  padding: 10
+                  padding: 10,
                 }}
               >
                 Visualizar gravação do último atendimento
@@ -108,29 +125,7 @@ export default function HomeClient({ navigation }) {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => Alert.alert("Entrar clicado")}>
-          <View style={styles.viewBlock}>
-            <View style={{ flex: 3.5 }}>
-              <ShowProfile />
-            </View>
-            <View style={styles.viewColumRightBlock}>
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontFamily: "PoppinsRegular",
-                  fontSize: 18,
-                  padding: 10
-                }}
-              >
-                Perfil
-              </Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <Pressable
-          style={styles.button}
-          onPress={() => Alert.alert("Entrar clicado")}
-        >
+        <Pressable style={styles.button} onPress={() => goLogin()}>
           <Text style={styles.text}>Fazer logout</Text>
         </Pressable>
       </ScrollView>

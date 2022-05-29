@@ -94,12 +94,16 @@ export default function SelectCameraImageRecorder({ route, navigation }) {
     <Item name={item.name} urlRtsp={item.urlRtsp} />
   );
 
+  const goBack = () => {
+    navigation.goBack();
+  };
+
   return (
     <SafeAreaView>
       <Appbar.Header style={{ backgroundColor: "#d9d9d9" }}>
         <Appbar.BackAction
           style={{ alignItems: "center", paddingBottom: "10%" }}
-          onPress={() => Alert.alert("Entrar clicado")}
+          onPress={() => goBack()}
         />
         <Appbar.Content
           title={

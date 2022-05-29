@@ -16,9 +16,10 @@ import { Appbar } from "react-native-paper";
 
 import SelectDropdown from "react-native-select-dropdown";
 
+export default function SelectAnimalOfClient({ route, navigation }) {
+  const { idClient } = route.params;
 
-
-export default function SelectAnimalClientImageRecorder({ navigation }) {
+  console.log(idClient);
 
   const names = [
     "Animal 1",
@@ -34,17 +35,14 @@ export default function SelectAnimalClientImageRecorder({ navigation }) {
   ];
   const idAnimal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  const goSelectCamera = (id) => {
-    navigation.navigate("SelectCameraImageRecorder", {
-      idAnimal: id,
-    });
-  };
-
   const goBack = () => {
     navigation.goBack();
   };
 
-  
+  const goHomeAndUnlockImage = (idAnimal) => {
+    //FAZER AQUI A CHAMADA NA API PARA LIBERAR IMAGENS COM O IDANIMAL
+    navigation.navigate("HomePetShop")
+  };
 
   let indexAnimalSelect;
 
@@ -81,10 +79,11 @@ export default function SelectAnimalClientImageRecorder({ navigation }) {
             marginTop: "10%",
           }}
         >
-          Escolha um de seus animais abaixo:
+          Escolha um animal do cliente abaixo:
         </Text>
         <SelectDropdown
           data={names}
+          dropdownIconPosition="right"
           defaultButtonText="Selecione um animal  ▼"
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index);
@@ -98,13 +97,19 @@ export default function SelectAnimalClientImageRecorder({ navigation }) {
             return item;
           }}
           buttonStyle={{ borderRadius: 10, width: "87%", marginTop: "30%" }}
-          buttonTextStyle={{fontFamily: "PoppinsRegular"}}
-          rowTextStyle={{fontFamily: "PoppinsRegular"}}
-          dropdownStyle={{borderBottomRightRadius: 10, borderBottomLeftRadius: 10}}
+          buttonTextStyle={{ fontFamily: "PoppinsRegular" }}
+          rowTextStyle={{ fontFamily: "PoppinsRegular" }}
+          dropdownStyle={{
+            borderBottomRightRadius: 10,
+            borderBottomLeftRadius: 10,
+          }}
         />
 
-        <Pressable style={styles.button} onPress={() => goSelectCamera(idAnimal[indexAnimalSelect])}>
-          <Text style={styles.text}>Escolher animal</Text>
+        <Pressable
+          style={styles.button}
+          onPress={() => goHomeAndUnlockImage(idAnimal[indexAnimalSelect])}
+        >
+          <Text style={styles.text}>Liberar imagens</Text>
         </Pressable>
       </View>
     </SafeAreaView>

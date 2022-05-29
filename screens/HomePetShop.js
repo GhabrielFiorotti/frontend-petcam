@@ -1,5 +1,12 @@
 import React from "react";
-import { ImageQuestion, CameraPhoto, AddClient, RegisterPet, BlockedImage, ShowCameras } from "../src/components/Images";
+import {
+  ImageQuestion,
+  CameraPhoto,
+  AddClient,
+  RegisterPet,
+  BlockedImage,
+  ShowCameras,
+} from "../src/components/Images";
 import {
   View,
   Text,
@@ -12,6 +19,29 @@ import {
 } from "react-native";
 
 export default function HomePetShop({ navigation }) {
+  const goListClientsUnlockImages = () => {
+    navigation.navigate("ListClientsUnlockImages");
+  };
+  const goRegisterClient = () => {
+    navigation.navigate("RegisterClient");
+  };
+  const goRegisterPet = () => {
+    navigation.navigate("RegisterPet");
+  };
+  const goBlockImageClient = () => {
+    navigation.navigate("BlockImageClient");
+  };
+  const goLogin = () => {
+    navigation.navigate("Login");
+  };
+  const goHomeHelp = () => {
+    navigation.navigate("HomeHelp");
+  };
+  const goListCamerasPetShop = () => {
+    navigation.navigate("ListCamerasPetShop");
+  };
+
+
   return (
     <SafeAreaView>
       <View style={{ height: "13%", width: "100%" }}>
@@ -26,7 +56,9 @@ export default function HomePetShop({ navigation }) {
           Olá, seja bem vindo.
         </Text>
 
-        <ImageQuestion />
+        <TouchableOpacity style={{position: "absolute", height: 38, width: 38, right: 15, top: 15}} onPress={() => goHomeHelp()}>
+          <ImageQuestion />
+        </TouchableOpacity>
 
         <Text
           style={{
@@ -38,14 +70,13 @@ export default function HomePetShop({ navigation }) {
             left: 15,
             right: 15,
             marginTop: -10,
-            
           }}
         >
           Escolha umas das opções abaixo:
         </Text>
       </View>
       <ScrollView style={{ padding: 15, height: "87%" }}>
-        <TouchableOpacity onPress={() => Alert.alert("Entrar clicado")}>
+        <TouchableOpacity onPress={() => goListClientsUnlockImages()}>
           <View style={styles.viewBlock}>
             <View style={{ flex: 3.5 }}>
               <CameraPhoto />
@@ -56,7 +87,7 @@ export default function HomePetShop({ navigation }) {
                   textAlign: "center",
                   fontFamily: "PoppinsRegular",
                   fontSize: 18,
-                  padding: 10
+                  padding: 10,
                 }}
               >
                 Liberar imagens
@@ -64,7 +95,7 @@ export default function HomePetShop({ navigation }) {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => Alert.alert("Entrar clicado")}>
+        <TouchableOpacity onPress={() => goRegisterClient()}>
           <View style={styles.viewBlock}>
             <View style={{ flex: 3.5 }}>
               <AddClient />
@@ -75,7 +106,7 @@ export default function HomePetShop({ navigation }) {
                   textAlign: "center",
                   fontFamily: "PoppinsRegular",
                   fontSize: 18,
-                  padding: 10
+                  padding: 10,
                 }}
               >
                 Cadastrar cliente
@@ -83,7 +114,7 @@ export default function HomePetShop({ navigation }) {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => Alert.alert("Entrar clicado")}>
+        <TouchableOpacity onPress={() => goRegisterPet()}>
           <View style={styles.viewBlock}>
             <View style={{ flex: 3.5 }}>
               <RegisterPet />
@@ -94,7 +125,7 @@ export default function HomePetShop({ navigation }) {
                   textAlign: "center",
                   fontFamily: "PoppinsRegular",
                   fontSize: 18,
-                  padding: 10
+                  padding: 10,
                 }}
               >
                 Cadastro de Pet
@@ -102,7 +133,7 @@ export default function HomePetShop({ navigation }) {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => Alert.alert("Entrar clicado")}>
+        <TouchableOpacity onPress={() => goBlockImageClient()}>
           <View style={styles.viewBlock}>
             <View style={{ flex: 3.5 }}>
               <BlockedImage />
@@ -113,7 +144,7 @@ export default function HomePetShop({ navigation }) {
                   textAlign: "center",
                   fontFamily: "PoppinsRegular",
                   fontSize: 18,
-                  padding: 10
+                  padding: 10,
                 }}
               >
                 Bloquear imagens
@@ -121,7 +152,7 @@ export default function HomePetShop({ navigation }) {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => Alert.alert("Entrar clicado")}>
+        <TouchableOpacity onPress={() => goListCamerasPetShop()}>
           <View style={styles.viewBlock}>
             <View style={{ flex: 3.5 }}>
               <ShowCameras />
@@ -132,7 +163,7 @@ export default function HomePetShop({ navigation }) {
                   textAlign: "center",
                   fontFamily: "PoppinsRegular",
                   fontSize: 18,
-                  padding: 10
+                  padding: 10,
                 }}
               >
                 Ver câmeras
@@ -140,7 +171,10 @@ export default function HomePetShop({ navigation }) {
             </View>
           </View>
         </TouchableOpacity>
-        <Pressable style={styles.button} onPress={() => Alert.alert("Entrar clicado")}>
+        <Pressable
+          style={styles.button}
+          onPress={() => goLogin()}
+        >
           <Text style={styles.text}>Fazer logout</Text>
         </Pressable>
       </ScrollView>
@@ -162,7 +196,7 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     color: "white",
   },
-  
+
   containerPhoto: {
     backgroundColor: "#FFFFFF",
   },

@@ -4,8 +4,7 @@ import {
   StyleSheet,
   SafeAreaView,
   Dimensions,
-  Text,
-  Alert
+  Text
 } from "react-native";
 
 import { Appbar } from "react-native-paper";
@@ -20,8 +19,8 @@ const {width, height}= Dimensions.get('window')
 
 export default function ShowImageCameraRecorder({ route, navigation }) {
   AWS.config.update({
-    accessKeyId: config.AWS_KEY,
-    secretAccessKey: config.AWS_SECRET_KEY,
+    accessKeyId: config.AWS_KEY_NEW2,
+    secretAccessKey: config.AWS_SECRET_KEY_NEW2,
     region: "sa-east-1"
   });
 
@@ -30,21 +29,27 @@ export default function ShowImageCameraRecorder({ route, navigation }) {
 
   var params = {
     Bucket: "videos-cameras-recorder",
-    Key: "teste1.mp4",
+    Key: "1_1_1.mp4",
   };
 
   const preSignUrl = s3.getSignedUrl("getObject", params);
 
-  console.log(preSignUrl);
+  console.log(preSignUrl)
+
 
   const { name, url } = route.params;
 
+  const goBack = () => {
+    navigation.goBack();
+  };
+
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1, backgroundColor: "#FFFFFF"}}>
+      
       <Appbar.Header style={{ backgroundColor: "#D9D9D9"}}>
         <Appbar.BackAction
           style={{ alignItems: "center", paddingBottom: "10%" }}
-          onPress={() => Alert.alert("Entrar clicado")}
+          onPress={() => goBack()}
         />
         <Appbar.Content
           title={
@@ -55,7 +60,7 @@ export default function ShowImageCameraRecorder({ route, navigation }) {
           style={{ marginLeft: -10, marginBottom: 10 }}
         />
       </Appbar.Header>
-      <View style={{ height: "88.5%", backgroundColor: "#d9d9d9", alignItems: "center" }}>
+      <View style={{ height: "55%", backgroundColor: "#d9d9d9", alignItems: "center", marginTop: "27%" }}>
         <Video
                 source={{ uri: preSignUrl }}
                 isMuted={false}

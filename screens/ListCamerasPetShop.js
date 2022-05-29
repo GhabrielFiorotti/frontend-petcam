@@ -19,54 +19,68 @@ const json = [
   {
     id: "1",
     name: "Recepção",
-    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
-    
+    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/",
+    status: "A",
   },
   {
     id: "2",
     name: "Lavagem",
-    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
-    
+    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/",
+    status: "I",
   },
   {
     id: "3",
     name: "Secagem",
-    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
+    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/",
+    status: "I",
   },
   {
     id: "4",
     name: "Setor teste 1",
-    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
+    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/",
+    status: "A",
   },
   {
     id: "5",
     name: "Setor teste 2",
-    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
+    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/",
+    status: "I",
   },
   {
     id: "6",
     name: "Setor teste 3",
-    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
+    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/",
+    status: "I",
   },
   {
     id: "7",
     name: "Setor teste 4",
-    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
+    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/",
+    status: "A",
   },
 ];
 
-export default function HomeClient({ navigation }) {
+export default function ListCamerasPetShop({ navigation }) {
+  const goCamera = (nameCamera, urlRtsp, status) => {
 
-  const goCamera = (nameCamera, urlRtsp) => {
-    navigation.navigate("ShowImageCameraLive", {
-      name: nameCamera,
-      url: urlRtsp
-    });
+    console.log(status)
+    if (status == "A") {
+      navigation.navigate("DisableCameraPetShop", {
+        name: nameCamera,
+        url: urlRtsp,
+      });
+    }
+    else{
+      navigation.navigate("EnableCameraPetShop", {
+        name: nameCamera,
+        url: urlRtsp,
+      });
+    }
   };
 
-  const Item = ({ name, urlRtsp }) => (
+  const Item = ({ name, urlRtsp, status }) => (
     <View>
-      <TouchableOpacity onPress={() => goCamera(name, urlRtsp)}>
+      <TouchableOpacity onPress={() => goCamera(name, urlRtsp, status)}>
         <View style={styles.viewBlock}>
           <View style={{ flex: 3.5 }}>
             <CameraIcon />
@@ -89,7 +103,9 @@ export default function HomeClient({ navigation }) {
     </View>
   );
 
-  const renderItem = ({ item }) => <Item name={item.name} urlRtsp={item.urlRtsp} />;
+  const renderItem = ({ item }) => (
+    <Item name={item.name} urlRtsp={item.urlRtsp} status={item.status} />
+  );
 
   const goBack = () => {
     navigation.goBack();
@@ -101,7 +117,6 @@ export default function HomeClient({ navigation }) {
         <Appbar.BackAction
           style={{ alignItems: "center", paddingBottom: "10%" }}
           onPress={() => goBack()}
-          
         />
         <Appbar.Content
           title={
