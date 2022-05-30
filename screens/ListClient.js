@@ -21,7 +21,7 @@ const ListClient = ({ data }) => {
         style={styles.itemPhoto}
       />
       <View style={styles.itemInfo}>
-        <Text style={styles.itemP1}>{data.name}</Text>
+        <Text style={styles.itemP1}>{data.nome}</Text>
         <Text style={styles.itemP2}>{data.email}</Text>
       </View>
     </TouchableOpacity>

@@ -93,7 +93,7 @@ export default function RegisterPet({ navigation }) {
         var responseCreate = await registerPet(
           name,
           gender,
-          verifyUsers.data.id_cliente,
+          verifyUsers.data.id,
           breed
         );
 

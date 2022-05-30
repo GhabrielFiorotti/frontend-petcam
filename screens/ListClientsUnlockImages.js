@@ -8,70 +8,44 @@ import {
   StyleSheet,
   TouchableOpacity,
   Text,
-  Alert
+  Alert,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import ListClient from "./ListClient";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Appbar } from "react-native-paper";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function ListClientsUnlockImages({navigation}) {
-
-  const clients = [
-    {
-      id: 1,
-      name: "Beatriz Farias",
-      email: "bia.farias@gmail.com",
-    },
-    {
-      id: 2,
-      name: "Julia Santos",
-      email: "jujusantos123@hotmail.com",
-    },
-    {
-      id: 3,
-      name: "Pedro Mendonça",
-      email: "eu@pedro.com",
-    },
-    {
-      id: 4,
-      name: "Julia Shinoda",
-      email: "julia.shinoda@japao.com",
-    },
-    {
-      id: 5,
-      name: "Beatriz Farias",
-      email: "bia.farias@gmail.com",
-    },
-    {
-      id: 6,
-      name: "Julia Santos",
-      email: "jujusantos123@hotmail.com",
-    },
-    {
-      id: 7,
-      name: "Pedro Mendonça",
-      email: "eu@pedro.com",
-    },
-    {
-      id: 8,
-      name: "Julia Shinoda",
-      email: "julia.shinoda@japao.com",
-    },
-  ];
-
+export default function ListClientsUnlockImages({ navigation }) {
+  const [clients, setData] = useState();
   const [searchText, setSearchText] = useState("");
   const [list, setList] = useState(clients);
 
+  useEffect(async() => {
 
-  useEffect(() => {
+    const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
+    async function getInfo() {
+      var config = {
+        method: "get",
+        url: "http://cameratcc.ddns.net:3000/petshop/clients",
+        headers: {
+          Authorization: `Bearer ${dataCache.token}`,
+        },
+      };
+      const response = await axios(config);
+      return response.data
+    }
+    var clients = await getInfo()
+    setData(clients)
+
     if (searchText === "") {
       setList(clients);
     } else {
       setList(
         clients.filter(
           (item) =>
-            item.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+            item.nome.toLowerCase().indexOf(searchText.toLowerCase()) > -1
         )
       );
     }
@@ -80,7 +54,7 @@ export default function ListClientsUnlockImages({navigation}) {
   const handleOrderClick = () => {
     let newList = [...clients];
 
-    newList.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
+    newList.sort((a, b) => (a.nome > b.nome ? 1 : b.nome > a.nome ? -1 : 0));
 
     setList(newList);
   };
@@ -91,7 +65,7 @@ export default function ListClientsUnlockImages({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-        <Appbar.Header style={{ backgroundColor: "#d9d9d9" }}>
+      <Appbar.Header style={{ backgroundColor: "#d9d9d9" }}>
         <Appbar.BackAction
           style={{ alignItems: "center", paddingBottom: "10%" }}
           onPress={() => goBack()}
@@ -126,8 +100,7 @@ export default function ListClientsUnlockImages({navigation}) {
         data={list}
         style={styles.list}
         renderItem={({ item }) => <ListClient data={item} />}
-        keyExtractor={(item) => item.id}
-        
+        keyExtractor={(item) => item.id_cliente}
       />
     </SafeAreaView>
   );
@@ -148,12 +121,11 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     color: "#000000",
-    fontFamily: "PoppinsRegular"
+    fontFamily: "PoppinsRegular",
   },
   searchArea: {
     flexDirection: "row",
-    alignItems: "center"
-    
+    alignItems: "center",
   },
   orderButton: {
     width: 32,
