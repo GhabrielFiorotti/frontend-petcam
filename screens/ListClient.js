@@ -5,16 +5,16 @@ import { useNavigation } from "@react-navigation/native";
 const ListClient = ({ data }) => {
   const navigation = useNavigation();
 
-  const goScreenSelectAnimal = (id) => {
+  const goScreenSelectAnimal = (animals) => {
     navigation.navigate("SelectAnimalOfClient", {
-      idClient: id,
+      animalsClient: animals,
     });
   };
 
   return (
     <TouchableOpacity
       style={styles.item}
-      onPress={() => goScreenSelectAnimal(data.id)}
+      onPress={() => goScreenSelectAnimal(data.animais)}
     >
       <Image
         source={require("../src/components/Images/account.png")}

@@ -37,6 +37,7 @@ export default function Login() {
       nome_usuario: user,
       nome: fullName,
       tipo_usuario: "C",
+      id_petshop: dataCache.id
     });
   
     var config = {

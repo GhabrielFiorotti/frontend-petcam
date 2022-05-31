@@ -144,7 +144,7 @@ export default function RegisterPet({ navigation }) {
         <View style={styles.inputView}>
           <TextInput
             style={styles.TextInput}
-            placeholder="sexo"
+            placeholder="sexo (M ou F)"
             placeholderTextColor="#6594FE"
             onChangeText={(gender) => setGender(gender)}
           />

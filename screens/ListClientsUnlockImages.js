@@ -21,22 +21,34 @@ export default function ListClientsUnlockImages({ navigation }) {
   const [clients, setData] = useState();
   const [searchText, setSearchText] = useState("");
   const [list, setList] = useState(clients);
-
+  
+  const [errorApi, setErrorApi] = useState("");
   useEffect(async() => {
 
     const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
+
+    console.log(dataCache)
     async function getInfo() {
       var config = {
         method: "get",
-        url: "http://cameratcc.ddns.net:3000/petshop/clients",
+        url: `http://cameratcc.ddns.net:3000/petshop/clients/${dataCache.id}`,
         headers: {
           Authorization: `Bearer ${dataCache.token}`,
         },
       };
-      const response = await axios(config);
-      return response.data
+      try {
+        const response = await axios(config);
+        setErrorApi(false)
+        return response.data
+        
+      } catch (error) {
+        setErrorApi(true)
+        return []
+      }
+      
     }
     var clients = await getInfo()
+
     setData(clients)
 
     if (searchText === "") {
@@ -67,7 +79,7 @@ export default function ListClientsUnlockImages({ navigation }) {
     <SafeAreaView style={styles.container}>
       <Appbar.Header style={{ backgroundColor: "#d9d9d9" }}>
         <Appbar.BackAction
-          style={{ alignItems: "center", paddingBottom: "10%" }}
+          style={{ alignItems: "center", paddingBottom: 10 }}
           onPress={() => goBack()}
         />
         <Appbar.Content
@@ -95,7 +107,20 @@ export default function ListClientsUnlockImages({ navigation }) {
           />
         </TouchableOpacity>
       </View>
-
+      {errorApi ? (
+        <Text
+          style={{
+            color: "#6594FE",
+            fontFamily: "PoppinsSemiBold",
+            fontSize: 18,
+            marginTop: 20,
+            marginBottom: -30,
+            textAlign: "center"
+          }}
+        >
+          Nenhum usuário cadastrado
+        </Text>
+      ) : null}
       <FlatList
         data={list}
         style={styles.list}

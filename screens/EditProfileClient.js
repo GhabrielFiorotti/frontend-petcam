@@ -6,9 +6,11 @@ import {
   Alert,
   StyleSheet,
   TouchableOpacity,
-  TextInput
+  TextInput,
 } from "react-native";
 import { ImageRegister } from "../src/components/Images";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function EditProfileClient({ navigation }) {
   const goBack = () => {
@@ -18,31 +20,88 @@ export default function EditProfileClient({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
-  const [user, setUser] = useState("");
 
-  const saveInfo = () => {
-    console.log(email)
-    navigation.navigate("HomeClient");
+  const [errorApi, setErrorApi] = useState("");
+
+  async function updateClient(email, password, fullName) {
+    const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
+
+    var data = JSON.stringify({
+      nome: fullName,
+      email: email,
+      password: password,
+      id_cliente: dataCache.id,
+    });
+
+    console.log(data)
+
+    var config = {
+      method: "put",
+      url: "http://cameratcc.ddns.net:3000/users/update_profile",
+      headers: {
+        Authorization: `Bearer ${dataCache.token}`,
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    var response = axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        return true;
+      })
+      .catch(function (error) {
+        return false;
+      });
+    return response;
+  }
+
+  const saveInfoAndGoHomeClient = async (email, password, fullName) => {
+    
+    var responseCreate = await updateClient(email, password, fullName);
+
+    if (responseCreate == false) {
+      setErrorApi(true);
+    } else navigation.navigate("HomeClient");
   };
-
 
   return (
     <View style={styles.containerPhoto}>
       <ImageRegister />
+      <Text
+        style={{
+          color: "#6594FE",
+          fontFamily: "PoppinsSemiBold",
+          fontSize: 18,
+          marginTop: 20,
+          marginBottom: -30,
+          textAlign: "center",
+          marginHorizontal: 20,
+        }}
+      >
+        Preencha somente os campos que deseja alterar
+      </Text>
+      {errorApi ? (
+        <Text
+          style={{
+            color: "#F33D3D",
+            fontFamily: "PoppinsSemiBold",
+            fontSize: 18,
+            marginTop: 20,
+            marginBottom: -30,
+            textAlign: "center",
+            marginHorizontal: 20,
+          }}
+        >
+          Erro, tente novamente mais tarde
+        </Text>
+      ) : null}
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
           placeholder="nome completo"
           placeholderTextColor="#6594FE"
           onChangeText={(fullName) => setFullName(fullName)}
-        />
-      </View>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="nome de usuário"
-          placeholderTextColor="#6594FE"
-          onChangeText={(user) => setUser(user)}
         />
       </View>
 
@@ -67,7 +126,7 @@ export default function EditProfileClient({ navigation }) {
 
       <Pressable
         style={styles.button}
-        onPress={() => saveInfo()}
+        onPress={() => saveInfoAndGoHomeClient(email, password, fullName)}
       >
         <Text style={styles.textButton}>Atualizar</Text>
       </Pressable>
@@ -96,12 +155,11 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  
+
   TextInput: {
     flex: 1,
-    fontFamily: 'PoppinsRegular',
-    fontSize: 18
-    
+    fontFamily: "PoppinsRegular",
+    fontSize: 18,
   },
   inputView: {
     width: "90%",
@@ -109,6 +167,6 @@ export const styles = StyleSheet.create({
     marginBottom: -20,
     marginTop: 50,
     borderBottomWidth: 1,
-    borderColor: "#6594FE"
+    borderColor: "#6594FE",
   },
 });

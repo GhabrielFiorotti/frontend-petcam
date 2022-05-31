@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState }from "react";
 import {
   View,
   Text,
@@ -16,32 +16,64 @@ import { Appbar } from "react-native-paper";
 
 import SelectDropdown from "react-native-select-dropdown";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios"
+
+
 export default function SelectAnimalOfClient({ route, navigation }) {
-  const { idClient } = route.params;
+  const { animalsClient } = route.params;
 
-  console.log(idClient);
+  const [errorNotCamera, setErrorNotCamera] = useState("");
+  const [errorGeneric, setErrorGeneric] = useState("");
+  const [errorExistingAccess, setErrorExistingAccess] = useState("");
 
-  const names = [
-    "Animal 1",
-    "Animal 2",
-    "Animal 3",
-    "Animal 4",
-    "Animal 5",
-    "Animal 6",
-    "Animal 7",
-    "Animal 8",
-    "Animal 9",
-    "Animal 10",
-  ];
-  const idAnimal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  var names = []
+  var idsAnimals = []
+
+  for (let index = 0; index < animalsClient.length; index++) {
+    names.push(animalsClient[index].nome)
+    idsAnimals.push(animalsClient[index].id_animal)
+  }
 
   const goBack = () => {
     navigation.goBack();
   };
 
-  const goHomeAndUnlockImage = (idAnimal) => {
-    //FAZER AQUI A CHAMADA NA API PARA LIBERAR IMAGENS COM O IDANIMAL
-    navigation.navigate("HomePetShop")
+  const goHomeAndUnlockImage = async(idAnimal) => {
+    
+    console.log(idAnimal)
+    const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
+    var config = {
+      method: 'post',
+      url: `http://cameratcc.ddns.net:3000/camera/grant-acess/${dataCache.id}/${idAnimal}`,
+      headers: { 
+        'Authorization': `Bearer ${dataCache.token}`
+      }
+    };
+    
+    axios(config)
+    .then(function (response) {
+      navigation.navigate("HomePetShop")
+    })
+    .catch(function (error) {
+      if(error.response.status == 406){
+        setErrorExistingAccess(false)
+        setErrorGeneric(false)
+        setErrorNotCamera(true)
+      }
+      else if(error.response.status == 400){
+        setErrorExistingAccess(true)
+        setErrorGeneric(false)
+        setErrorNotCamera(false)
+      }
+      else{
+        setErrorNotCamera(false)
+        setErrorExistingAccess(false)
+        setErrorGeneric(true)
+      }
+    });
+
+    
   };
 
   let indexAnimalSelect;
@@ -50,7 +82,7 @@ export default function SelectAnimalOfClient({ route, navigation }) {
     <SafeAreaView>
       <Appbar.Header style={{ backgroundColor: "#d9d9d9" }}>
         <Appbar.BackAction
-          style={{ alignItems: "center", paddingBottom: "10%" }}
+          style={{ alignItems: "center", paddingBottom: 10 }}
           onPress={() => goBack()}
         />
         <Appbar.Content
@@ -77,10 +109,55 @@ export default function SelectAnimalOfClient({ route, navigation }) {
             fontFamily: "PoppinsRegular",
             textAlign: "center",
             marginTop: "10%",
+            marginHorizontal: 20
           }}
         >
           Escolha um animal do cliente abaixo:
         </Text>
+        {errorNotCamera ? (
+        <Text
+          style={{
+            color: "#F33D3D",
+            fontFamily: "PoppinsSemiBold",
+            fontSize: 18,
+            marginTop: 20,
+            marginBottom: -30,
+            textAlign:"center",
+            marginHorizontal: 20
+          }}
+        >
+          Nenhuma câmera cadastrada ou ativada para o Pet shop
+        </Text>
+      ) : null}
+      {errorExistingAccess ? (
+        <Text
+          style={{
+            color: "#F33D3D",
+            fontFamily: "PoppinsSemiBold",
+            fontSize: 18,
+            marginTop: 20,
+            marginBottom: -30,
+            textAlign:"center",
+            marginHorizontal: 20
+          }}
+        >
+          O animal escolhido já possui uma liberação de imagens em andamento
+        </Text>
+      ) : null}
+      {errorGeneric ? (
+        <Text
+          style={{
+            color: "#F33D3D",
+            fontFamily: "PoppinsSemiBold",
+            fontSize: 18,
+            marginTop: 20,
+            marginBottom: -30,
+            textAlign:"center"
+          }}
+        >
+          Error, tente novamente mais tarde
+        </Text>
+      ) : null}
         <SelectDropdown
           data={names}
           dropdownIconPosition="right"
@@ -107,7 +184,7 @@ export default function SelectAnimalOfClient({ route, navigation }) {
 
         <Pressable
           style={styles.button}
-          onPress={() => goHomeAndUnlockImage(idAnimal[indexAnimalSelect])}
+          onPress={() => goHomeAndUnlockImage(idsAnimals[indexAnimalSelect])}
         >
           <Text style={styles.text}>Liberar imagens</Text>
         </Pressable>
@@ -122,7 +199,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#6594FE",
     width: "87%",
     padding: 7,
-    marginTop: "70%",
+    marginTop: "40%",
     alignItems: "center",
   },
   text: {
