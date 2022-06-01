@@ -6,9 +6,17 @@ const ListClient = ({ data }) => {
   const navigation = useNavigation();
 
   const goScreenSelectAnimal = (animals) => {
-    navigation.navigate("SelectAnimalOfClient", {
-      animalsClient: animals,
-    });
+    if (animals.length == 0) {
+      navigation.navigate("SelectAnimalOfClient", {
+        animalsClient: animals,
+        emptyAnimals: true,
+      });
+    } else {
+      navigation.navigate("SelectAnimalOfClient", {
+        animalsClient: animals,
+        emptyAnimals: false,
+      });
+    }
   };
 
   return (

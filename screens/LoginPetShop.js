@@ -22,7 +22,7 @@ export default function LoginPetShop({navigation}) {
   const [error, setError] = useState("");
 
   
-  async function  validLogin(){
+  async function validLogin(){
 
     var responseAxios = await axios.post('http://cameratcc.ddns.net:3000/users/login', {
       nome_usuario: username,
@@ -30,11 +30,13 @@ export default function LoginPetShop({navigation}) {
       tipo_usuario:"P"
     })
     .then(function (response) {
+      
       AsyncStorage.setItem('DATA_KEY', JSON.stringify(response.data));
       return true;
       
     })
     .catch(function (error) {
+      
       return false;
     });
     return responseAxios

@@ -30,7 +30,7 @@ export default function Login() {
   async function registerClient(fullName, user, email, password) {
   
     const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
-  
+    console.log(dataCache.id)
     var data = JSON.stringify({
       email: email,
       password: password,

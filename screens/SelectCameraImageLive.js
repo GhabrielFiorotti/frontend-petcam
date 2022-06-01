@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useState, useEffect } from "react";
 import { CameraIcon } from "../src/components/Images";
 import {
   View,
@@ -15,47 +15,47 @@ import {
 
 import { Appbar } from "react-native-paper";
 
-const json = [
-  {
-    id: "1",
-    name: "Recepção",
-    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
-    
-  },
-  {
-    id: "2",
-    name: "Lavagem",
-    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
-    
-  },
-  {
-    id: "3",
-    name: "Secagem",
-    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
-  },
-  {
-    id: "4",
-    name: "Setor teste 1",
-    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
-  },
-  {
-    id: "5",
-    name: "Setor teste 2",
-    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
-  },
-  {
-    id: "6",
-    name: "Setor teste 3",
-    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
-  },
-  {
-    id: "7",
-    name: "Setor teste 4",
-    urlRtsp: "https://rtsp.me/embed/Q75hFn7E/"
-  },
-];
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export default function HomeClient({ navigation }) {
+
+  const list = [];
+  const [json, setJson] = useState(list);
+  const [teste, setTeste] = useState("");
+  const [errorApi, setErrorApi] = useState("");
+
+  useEffect(async () => {
+    async function getInfo() {
+      const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
+      var config = {
+        method: "get",
+        url: `http://cameratcc.ddns.net:3000/camera/list/${dataCache.id}`,
+        headers: {
+          Authorization: `Bearer ${dataCache.token}`,
+        },
+      };
+
+      const json = await axios(config)
+        .then(function (response) {
+          setErrorApi(false);
+          console.log(response.data)
+          
+          return response.data;
+        })
+        .catch(function (error) {
+          setErrorApi(true);
+          return [];
+        });
+
+      return json;
+    }
+
+    const json = await getInfo();
+    setJson(json);
+  }, [teste]);
+
 
   const goCamera = (nameCamera, urlRtsp) => {
     navigation.navigate("ShowImageCameraLive", {
@@ -89,7 +89,7 @@ export default function HomeClient({ navigation }) {
     </View>
   );
 
-  const renderItem = ({ item }) => <Item name={item.name} urlRtsp={item.urlRtsp} />;
+  const renderItem = ({ item }) => <Item name={item.setor} urlRtsp={item.link_rtsp_aovivo} />;
 
   const goBack = () => {
     navigation.goBack();
@@ -113,10 +113,25 @@ export default function HomeClient({ navigation }) {
         />
       </Appbar.Header>
       <SafeAreaView style={{ padding: 15, height: "87%" }}>
+      {errorApi ? (
+        <Text
+          style={{
+            color: "#6594FE",
+            fontFamily: "PoppinsSemiBold",
+            fontSize: 18,
+            marginTop: 20,
+            marginBottom: -30,
+            marginHorizontal: 20,
+            textAlign: "center",
+          }}
+        >
+          Você não possui acesso para visualizar as imagens
+        </Text>
+      ) : null}
         <FlatList
           data={json}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id_camera}
         />
       </SafeAreaView>
     </SafeAreaView>

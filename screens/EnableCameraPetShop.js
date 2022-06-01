@@ -13,16 +13,50 @@ import { ImageInit } from "../src/components/Images";
 import { Appbar } from "react-native-paper";
 import { WebView } from "react-native-webview";
 
+
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export default function EnableCameraPetShop({ route, navigation }) {
-  const { name, url } = route.params;
-  
+  const { name, url, id_camera } = route.params;
+
+  console.log(id_camera);
+  console.log("ATIVAR")
+
   const goBack = () => {
     navigation.goBack();
   };
 
-  const goHomeAndEnableCamera = ()=>{
+  const goHomeAndEnableCamera = async () => {
+    const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
+
+    var data = JSON.stringify({
+      id_camera: id_camera,
+      id_petshop: dataCache.id_petshop,
+      status: "A",
+    });
+
+    var config = {
+      method: "put",
+      url: "http://cameratcc.ddns.net:3000/camera/change-status/",
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoiMSIsImlhdCI6MTY1NDExODEyOSwiZXhwIjoxNjU0Mjk4MTI5fQ.4xOQUpIOzFtSNvlBDvcV2IlEK7oQxjTVrpTRG86WxEs",
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
     navigation.navigate("HomePetShop");
-  }
+  };
 
   return (
     <SafeAreaView>
@@ -41,7 +75,9 @@ export default function EnableCameraPetShop({ route, navigation }) {
         />
       </Appbar.Header>
 
-      <View style={{ height: "100%", paddingTop: 100, backgroundColor: "#FFFFFF" }}>
+      <View
+        style={{ height: "100%", paddingTop: 100, backgroundColor: "#FFFFFF" }}
+      >
         <View style={{ height: "50%" }}>
           <WebView
             originWhitelist={["*"]}
@@ -51,7 +87,10 @@ export default function EnableCameraPetShop({ route, navigation }) {
           />
         </View>
         <View style={{ alignItems: "center", height: "50%" }}>
-          <Pressable style={styles.button} onPress={() => goHomeAndEnableCamera()}>
+          <Pressable
+            style={styles.button}
+            onPress={() => goHomeAndEnableCamera()}
+          >
             <Text style={styles.textButton}>Ativar câmera</Text>
           </Pressable>
         </View>
@@ -61,18 +100,17 @@ export default function EnableCameraPetShop({ route, navigation }) {
 }
 
 export const styles = StyleSheet.create({
-
   button: {
     borderRadius: 12,
     backgroundColor: "#6594FE",
     width: "90%",
     alignItems: "center",
-    padding: 8
+    padding: 8,
   },
   textButton: {
     fontFamily: "PoppinsRegular",
     fontSize: 18,
     color: "white",
-    textAlign: "center"
+    textAlign: "center",
   },
 });

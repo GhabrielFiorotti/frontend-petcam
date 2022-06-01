@@ -21,16 +21,21 @@ import axios from "axios"
 
 
 export default function SelectAnimalOfClient({ route, navigation }) {
-  const { animalsClient } = route.params;
+  const { animalsClient, emptyAnimals } = route.params;
+
+
 
   const [errorNotCamera, setErrorNotCamera] = useState("");
   const [errorGeneric, setErrorGeneric] = useState("");
   const [errorExistingAccess, setErrorExistingAccess] = useState("");
 
+
   var names = []
   var idsAnimals = []
+  
 
   for (let index = 0; index < animalsClient.length; index++) {
+    
     names.push(animalsClient[index].nome)
     idsAnimals.push(animalsClient[index].id_animal)
   }
@@ -157,6 +162,7 @@ export default function SelectAnimalOfClient({ route, navigation }) {
           Error, tente novamente mais tarde
         </Text>
       ) : null}
+
         <SelectDropdown
           data={names}
           dropdownIconPosition="right"

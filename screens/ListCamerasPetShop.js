@@ -38,12 +38,10 @@ export default function ListCamerasPetShop({ navigation }) {
       const json = await axios(config)
         .then(function (response) {
           setErrorApi(false);
-          console.log(response.data)
           
           return response.data;
         })
         .catch(function (error) {
-          console.log("OIIIIIIIII")
           setErrorApi(true);
           return [];
         });
@@ -52,28 +50,30 @@ export default function ListCamerasPetShop({ navigation }) {
     }
 
     const json = await getInfo();
+
     setJson(json);
   }, [teste]);
 
-  const goCamera = (nameCamera, urlRtsp, status) => {
-    console.log(status);
+  const goCamera = (nameCamera, urlRtsp, status, id_camera) => {
     if (status == "A") {
       navigation.navigate("DisableCameraPetShop", {
+        id_camera: id_camera,
         name: nameCamera,
         url: urlRtsp,
       });
     } else {
       navigation.navigate("EnableCameraPetShop", {
+        id_camera: id_camera,
         name: nameCamera,
         url: urlRtsp,
       });
     }
   };
 
-  const Item = ({ name, urlRtsp, status }) => (
+  const Item = ({ name, urlRtsp, status,id_camera }) => (
     <View>
       
-      <TouchableOpacity onPress={() => goCamera(name, urlRtsp, status)}>
+      <TouchableOpacity onPress={() => goCamera(name, urlRtsp, status, id_camera)}>
         <View style={styles.viewBlock}>
           <View style={{ flex: 3.5 }}>
             <CameraIcon />
@@ -102,6 +102,7 @@ export default function ListCamerasPetShop({ navigation }) {
       name={item.setor}
       urlRtsp={item.link_rtsp_aovivo}
       status={item.status}
+      id_camera={item.id_camera}
     />
   );
 

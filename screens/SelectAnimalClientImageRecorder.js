@@ -15,28 +15,31 @@ import {
 import { Appbar } from "react-native-paper";
 
 import SelectDropdown from "react-native-select-dropdown";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
+export default function SelectAnimalClientImageRecorder({route, navigation }) {
 
-export default function SelectAnimalClientImageRecorder({ navigation }) {
+  const { animals, id_petshop, id_camera, nameCamera} = route.params;
 
-  const names = [
-    "Animal 1",
-    "Animal 2",
-    "Animal 3",
-    "Animal 4",
-    "Animal 5",
-    "Animal 6",
-    "Animal 7",
-    "Animal 8",
-    "Animal 9",
-    "Animal 10",
-  ];
-  const idAnimal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  const goSelectCamera = (id) => {
-    navigation.navigate("SelectCameraImageRecorder", {
+  var names = []
+  var idsAnimals = []
+  
+
+  for (let index = 0; index < animals.length; index++) {
+    
+    names.push(animals[index].nome)
+    idsAnimals.push(animals[index].id_animal)
+  }
+
+  const goShowImageCameraRecorder = (id) => {
+    console.log(id)
+    navigation.navigate("ShowImageCameraRecorder", {
+      id_camera: id_camera,
       idAnimal: id,
+      id_petshop: id_petshop,
+      name: nameCamera
     });
   };
 
@@ -103,7 +106,7 @@ export default function SelectAnimalClientImageRecorder({ navigation }) {
           dropdownStyle={{borderBottomRightRadius: 10, borderBottomLeftRadius: 10}}
         />
 
-        <Pressable style={styles.button} onPress={() => goSelectCamera(idAnimal[indexAnimalSelect])}>
+        <Pressable style={styles.button} onPress={() => goShowImageCameraRecorder(idsAnimals[indexAnimalSelect])}>
           <Text style={styles.text}>Escolher animal</Text>
         </Pressable>
       </View>

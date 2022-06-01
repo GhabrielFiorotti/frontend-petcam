@@ -16,53 +16,17 @@ import { Appbar } from "react-native-paper";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function BlockImageClient() {
-  const goBack = () => {
-    navigation.goBack();
-  };
 
- /*  const dataImagesUnlock = [
-    {
-      id: 1,
-      nameClient: "Beatriz Farias",
-      nameAnimal: "Rex",
-    },
-    {
-      id: 2,
-      nameClient: "Julia Santos",
-      nameAnimal: "Pingo",
-    },
-    {
-      id: 3,
-      nameClient: "Pedro Mendonça",
-      nameAnimal: "Madona",
-    },
-    {
-      id: 4,
-      nameClient: "Julia Shinoda",
-      nameAnimal: "Pit",
-    },
-    {
-      id: 5,
-      nameClient: "Beatriz Farias",
-      nameAnimal: "Charmoso",
-    },
-    {
-      id: 6,
-      nameClient: "Julia Santos",
-      nameAnimal: "Chapolin",
-    },
-    {
-      id: 7,
-      nameClient: "Pedro Mendonça",
-      nameAnimal: "Candinho",
-    },
-    {
-      id: 8,
-      nameClient: "Julia Shinoda",
-      nameAnimal: "Lis",
-    },
-  ]; */
+import { useNavigation } from "@react-navigation/native";
+
+export default function BlockImageClient() {
+  const navigation = useNavigation();
+
+
+  const goBack = () =>{
+    navigation.navigate("HomePetShop")
+  }
+
 
   const [searchText, setSearchText] = useState("");
   const [list, setList] = useState(animalsImageUnlocked);

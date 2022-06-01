@@ -24,8 +24,8 @@ export default function HomeClient({ navigation }) {
   const goEditProfileClient = () => {
     navigation.navigate("EditProfileClient");
   };
-  const goSelectAnimalClientImageRecorder = () => {
-    navigation.navigate("SelectAnimalClientImageRecorder");
+  const goSelectCameraImageRecorder = () => {
+    navigation.navigate("SelectCameraImageRecorder");
   };
   const goHome = () => {
     navigation.navigate("Home");
@@ -106,7 +106,7 @@ export default function HomeClient({ navigation }) {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => goSelectAnimalClientImageRecorder()}>
+        <TouchableOpacity onPress={() => goSelectCameraImageRecorder()}>
           <View style={styles.viewBlock}>
             <View style={{ flex: 3.5 }}>
               <ShowCameras />

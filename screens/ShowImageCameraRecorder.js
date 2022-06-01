@@ -26,18 +26,14 @@ export default function ShowImageCameraRecorder({ route, navigation }) {
 
   const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
 
+  const { id_camera, idAnimal, id_petshop, name} = route.params;
 
   var params = {
     Bucket: "videos-cameras-recorder",
-    Key: "4_1_11.mp4",
+    Key: `${id_camera}_${idAnimal}_${id_petshop}.mp4`,
   };
 
   const preSignUrl = s3.getSignedUrl("getObject", params);
-
-  console.log(preSignUrl)
-
-
-  const { name, url } = route.params;
 
   const goBack = () => {
     navigation.goBack();

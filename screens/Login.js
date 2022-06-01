@@ -29,12 +29,14 @@ export default function Login({ navigation }) {
 
   async function  validLogin(){
 
+
     var responseAxios = await axios.post('http://cameratcc.ddns.net:3000/users/login', {
       nome_usuario: username,
       password: password,
       tipo_usuario:"C"
     })
     .then(function (response) {
+      console.log(response.data)
       AsyncStorage.setItem('DATA_KEY', JSON.stringify(response.data));
       return true;
       
@@ -46,6 +48,7 @@ export default function Login({ navigation }) {
   }
 
   const validLoginAndHomeClient = async (username, password) => {
+
     
     var response = await validLogin(username, password);
 
