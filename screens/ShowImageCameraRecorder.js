@@ -29,7 +29,7 @@ export default function ShowImageCameraRecorder({ route, navigation }) {
 
   var params = {
     Bucket: "videos-cameras-recorder",
-    Key: "1_1_1.mp4",
+    Key: "4_1_11.mp4",
   };
 
   const preSignUrl = s3.getSignedUrl("getObject", params);
@@ -48,7 +48,7 @@ export default function ShowImageCameraRecorder({ route, navigation }) {
       
       <Appbar.Header style={{ backgroundColor: "#D9D9D9"}}>
         <Appbar.BackAction
-          style={{ alignItems: "center", paddingBottom: "10%" }}
+          style={{ alignItems: "center", paddingBottom: 10 }}
           onPress={() => goBack()}
         />
         <Appbar.Content

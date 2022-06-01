@@ -41,7 +41,6 @@ export default function SelectAnimalOfClient({ route, navigation }) {
 
   const goHomeAndUnlockImage = async(idAnimal) => {
     
-    console.log(idAnimal)
     const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
     var config = {
       method: 'post',

@@ -18,7 +18,7 @@ export default function HomeHelp({ navigation }) {
     <View>
       <Appbar.Header style={{ backgroundColor: "#d9d9d9" }}>
         <Appbar.BackAction
-          style={{ alignItems: "center", paddingBottom: "10%" }}
+          style={{ alignItems: "center", paddingBottom: 10 }}
           onPress={() => goBack()}
         />
         <Appbar.Content

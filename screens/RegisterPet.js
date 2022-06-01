@@ -114,7 +114,7 @@ export default function RegisterPet({ navigation }) {
     <View style={{ backgroundColor: "#FFFFFF", flex: 1 }}>
       <Appbar.Header style={{ backgroundColor: "#d9d9d9" }}>
         <Appbar.BackAction
-          style={{ alignItems: "center", paddingBottom: "10%" }}
+          style={{ alignItems: "center", paddingBottom: 10 }}
           onPress={() => goBack()}
         />
         <Appbar.Content

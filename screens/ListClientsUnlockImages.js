@@ -27,7 +27,6 @@ export default function ListClientsUnlockImages({ navigation }) {
 
     const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
 
-    console.log(dataCache)
     async function getInfo() {
       var config = {
         method: "get",

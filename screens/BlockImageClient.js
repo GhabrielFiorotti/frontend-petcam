@@ -8,19 +8,20 @@ import {
   StyleSheet,
   TouchableOpacity,
   Text,
-  Alert
+  Alert,
 } from "react-native";
 import ListAnimalByClientWithImageUnlock from "./ListAnimalByClientWithImageBlock";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Appbar } from "react-native-paper";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function BlockImageClient() {
-
-  const goBack = () =>{
+  const goBack = () => {
     navigation.goBack();
-  }
+  };
 
-  const dataImagesUnlock = [
+ /*  const dataImagesUnlock = [
     {
       id: 1,
       nameClient: "Beatriz Farias",
@@ -61,13 +62,37 @@ export default function BlockImageClient() {
       nameClient: "Julia Shinoda",
       nameAnimal: "Lis",
     },
-  ];
+  ]; */
 
   const [searchText, setSearchText] = useState("");
-  const [list, setList] = useState(dataImagesUnlock);
+  const [list, setList] = useState(animalsImageUnlocked);
+  const [animalsImageUnlocked, setAnimalsImageUnlocked] = useState();
+  const [errorApi, setErrorApi] = useState("");
 
+  useEffect(async () => {
+    const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
 
-  useEffect(() => {
+    async function getInfo() {
+      var config = {
+        method: "get",
+        url: `http://cameratcc.ddns.net:3000/petshop/list_acess/${dataCache.id}`,
+        headers: {
+          Authorization: `Bearer ${dataCache.token}`,
+        },
+      };
+      try {
+        const response = await axios(config);
+        setErrorApi(false);
+        return response.data;
+      } catch (error) {
+        setErrorApi(true);
+        return [];
+      }
+    }
+    var dataImagesUnlock = await getInfo();
+
+    setAnimalsImageUnlocked(dataImagesUnlock);
+
     if (searchText === "") {
       setList(dataImagesUnlock);
     } else {
@@ -75,13 +100,13 @@ export default function BlockImageClient() {
         dataImagesUnlock.filter(
           (item) =>
             item.nameAnimal.toLowerCase().indexOf(searchText.toLowerCase()) > -1
-        ), 
+        )
       );
       setList(
         dataImagesUnlock.filter(
           (item) =>
             item.nameAnimal.toLowerCase().indexOf(searchText.toLowerCase()) > -1
-        ), 
+        )
       );
     }
   }, [searchText]);
@@ -89,18 +114,18 @@ export default function BlockImageClient() {
   const handleOrderClick = () => {
     let newList = [...dataImagesUnlock];
 
-    newList.sort((a, b) => (a.nameAnimal > b.nameAnimal ? 1 : b.nameAnimal > a.nameAnimal ? -1 : 0));
+    newList.sort((a, b) =>
+      a.nameAnimal > b.nameAnimal ? 1 : b.nameAnimal > a.nameAnimal ? -1 : 0
+    );
 
     setList(newList);
   };
 
-  
-
   return (
     <SafeAreaView style={styles.container}>
-        <Appbar.Header style={{ backgroundColor: "#d9d9d9" }}>
+      <Appbar.Header style={{ backgroundColor: "#d9d9d9" }}>
         <Appbar.BackAction
-          style={{ alignItems: "center", paddingBottom: "10%" }}
+          style={{ alignItems: "center", paddingBottom: 10}}
           onPress={() => goBack()}
         />
         <Appbar.Content
@@ -129,12 +154,27 @@ export default function BlockImageClient() {
         </TouchableOpacity>
       </View>
 
+      {errorApi ? (
+        <Text
+          style={{
+            color: "#6594FE",
+            fontFamily: "PoppinsSemiBold",
+            fontSize: 18,
+            marginTop: 20,
+            marginBottom: -30,
+            textAlign: "center",
+          }}
+        >
+          Nenhum animal liberado
+        </Text>
+      ) : null}
       <FlatList
         data={list}
         style={styles.list}
-        renderItem={({ item }) => <ListAnimalByClientWithImageUnlock data={item} />}
+        renderItem={({ item }) => (
+          <ListAnimalByClientWithImageUnlock data={item} />
+        )}
         keyExtractor={(item) => item.id}
-        
       />
     </SafeAreaView>
   );
@@ -155,12 +195,11 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     color: "#000000",
-    fontFamily: "PoppinsRegular"
+    fontFamily: "PoppinsRegular",
   },
   searchArea: {
     flexDirection: "row",
-    alignItems: "center"
-    
+    alignItems: "center",
   },
   orderButton: {
     width: 32,

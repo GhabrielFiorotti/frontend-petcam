@@ -28,7 +28,7 @@ export default function DisableCameraPetShop({ route, navigation }) {
     <SafeAreaView>
       <Appbar.Header style={{ backgroundColor: "#D9D9D9" }}>
         <Appbar.BackAction
-          style={{ alignItems: "center", paddingBottom: "10%" }}
+          style={{ alignItems: "center", paddingBottom: 10 }}
           onPress={() => goBack()}
         />
         <Appbar.Content
