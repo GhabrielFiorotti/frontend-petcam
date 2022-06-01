@@ -41,7 +41,7 @@ export default function EnableCameraPetShop({ route, navigation }) {
       url: "http://cameratcc.ddns.net:3000/camera/change-status/",
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoiMSIsImlhdCI6MTY1NDExODEyOSwiZXhwIjoxNjU0Mjk4MTI5fQ.4xOQUpIOzFtSNvlBDvcV2IlEK7oQxjTVrpTRG86WxEs",
+        `Bearer ${dataCache.token}`,
         "Content-Type": "application/json",
       },
       data: data,
