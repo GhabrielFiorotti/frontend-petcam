@@ -31,7 +31,7 @@ const ImageQuestion = () => (
 
 const CameraPhoto = () => (
   <Image
-    source={require("./cameraPhoto.jpg")}
+    source={require("./cameraImage.png")}
     style={{position: "absolute", height: "100%", width: "100%", borderRadius: 10}}
   />
 );
@@ -52,14 +52,14 @@ const RegisterPet = () => (
 
 const BlockedImage = () => (
   <Image
-    source={require("./blockedImage.jpg")}
+    source={require("./blockedImage.png")}
     style={{position: "absolute", height: "100%", width: "100%", borderRadius: 10}}
   />
 );
 
 const ShowCameras = () => (
   <Image
-    source={require("./showCameras.jpg")}
+    source={require("./cameras.png")}
     style={{position: "absolute", height: "100%", width: "100%", borderRadius: 10}}
   />
 );

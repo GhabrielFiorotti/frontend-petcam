@@ -6,7 +6,7 @@
     "orientation": "default",
     "icon": "./assets/iconPetCam.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/iconPetCam.png",
       "resizeMode": "contain",
       "backgroundColor": "#FFFFFF"
     },
@@ -27,7 +27,7 @@
       "package": "teste.apk"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/iconPetCam.png"
     }
   }
 }
