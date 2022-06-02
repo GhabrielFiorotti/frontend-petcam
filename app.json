@@ -4,9 +4,9 @@
     "slug": "my-project",
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./assets/iconPetCam.png",
+    "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/iconPetCam.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#FFFFFF"
     },
@@ -27,7 +27,7 @@
       "package": "teste.apk"
     },
     "web": {
-      "favicon": "./assets/iconPetCam.png"
+      "favicon": "./assets/favicon.png"
     }
   }
 }
