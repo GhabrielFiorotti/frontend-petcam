@@ -134,7 +134,7 @@ export default function SelectCameraImageRecorder({ navigation }) {
         <Appbar.Content
           title={
             <Text style={{ fontFamily: "PoppinsRegular", fontSize: 22 }}>
-              Câmeras do PetShop
+              Selecionar câmera
             </Text>
           }
           style={{ marginLeft: -10, marginBottom: 10 }}
@@ -153,7 +153,7 @@ export default function SelectCameraImageRecorder({ navigation }) {
               textAlign: "center",
             }}
           >
-            Nenhuma câmera cadastrada ao Pet shop
+            Nenhum atendimento realizado com seus animais
           </Text>
         ) : null}
         <FlatList
