@@ -1,4 +1,4 @@
-import React, { useState }from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -17,67 +17,56 @@ import { Appbar } from "react-native-paper";
 import SelectDropdown from "react-native-select-dropdown";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios"
-
+import axios from "axios";
 
 export default function SelectAnimalOfClient({ route, navigation }) {
   const { animalsClient, emptyAnimals } = route.params;
-
-
 
   const [errorNotCamera, setErrorNotCamera] = useState("");
   const [errorGeneric, setErrorGeneric] = useState("");
   const [errorExistingAccess, setErrorExistingAccess] = useState("");
 
-
-  var names = []
-  var idsAnimals = []
-  
+  var names = [];
+  var idsAnimals = [];
 
   for (let index = 0; index < animalsClient.length; index++) {
-    
-    names.push(animalsClient[index].nome)
-    idsAnimals.push(animalsClient[index].id_animal)
+    names.push(animalsClient[index].nome);
+    idsAnimals.push(animalsClient[index].id_animal);
   }
 
   const goBack = () => {
     navigation.goBack();
   };
 
-  const goHomeAndUnlockImage = async(idAnimal) => {
-    
+  const goHomeAndUnlockImage = async (idAnimal) => {
     const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
     var config = {
-      method: 'post',
+      method: "post",
       url: `http://cameratcc.ddns.net:3000/camera/grant-acess/${dataCache.id}/${idAnimal}`,
-      headers: { 
-        'Authorization': `Bearer ${dataCache.token}`
-      }
+      headers: {
+        Authorization: `Bearer ${dataCache.token}`,
+      },
     };
-    
-    axios(config)
-    .then(function (response) {
-      navigation.navigate("HomePetShop")
-    })
-    .catch(function (error) {
-      if(error.response.status == 406){
-        setErrorExistingAccess(false)
-        setErrorGeneric(false)
-        setErrorNotCamera(true)
-      }
-      else if(error.response.status == 400){
-        setErrorExistingAccess(true)
-        setErrorGeneric(false)
-        setErrorNotCamera(false)
-      }
-      else{
-        setErrorNotCamera(false)
-        setErrorExistingAccess(false)
-        setErrorGeneric(true)
-      }
-    });
 
-    
+    axios(config)
+      .then(function (response) {
+        navigation.navigate("HomePetShop");
+      })
+      .catch(function (error) {
+        if (error.response.status == 406) {
+          setErrorExistingAccess(false);
+          setErrorGeneric(false);
+          setErrorNotCamera(true);
+        } else if (error.response.status == 400) {
+          setErrorExistingAccess(true);
+          setErrorGeneric(false);
+          setErrorNotCamera(false);
+        } else {
+          setErrorNotCamera(false);
+          setErrorExistingAccess(false);
+          setErrorGeneric(true);
+        }
+      });
   };
 
   let indexAnimalSelect;
@@ -113,80 +102,95 @@ export default function SelectAnimalOfClient({ route, navigation }) {
             fontFamily: "PoppinsRegular",
             textAlign: "center",
             marginTop: "10%",
-            marginHorizontal: 20
+            marginHorizontal: 20,
           }}
         >
           Escolha um animal do cliente abaixo:
         </Text>
         {errorNotCamera ? (
-        <Text
-          style={{
-            color: "#F33D3D",
-            fontFamily: "PoppinsSemiBold",
-            fontSize: 18,
-            marginTop: 20,
-            marginBottom: -30,
-            textAlign:"center",
-            marginHorizontal: 20
-          }}
-        >
-          Nenhuma câmera cadastrada ou ativada para o Pet shop
-        </Text>
-      ) : null}
-      {errorExistingAccess ? (
-        <Text
-          style={{
-            color: "#F33D3D",
-            fontFamily: "PoppinsSemiBold",
-            fontSize: 18,
-            marginTop: 20,
-            marginBottom: -30,
-            textAlign:"center",
-            marginHorizontal: 20
-          }}
-        >
-          O animal escolhido já possui uma liberação de imagens em andamento
-        </Text>
-      ) : null}
-      {errorGeneric ? (
-        <Text
-          style={{
-            color: "#F33D3D",
-            fontFamily: "PoppinsSemiBold",
-            fontSize: 18,
-            marginTop: 20,
-            marginBottom: -30,
-            textAlign:"center"
-          }}
-        >
-          Error, tente novamente mais tarde
-        </Text>
-      ) : null}
-
-        <SelectDropdown
-          data={names}
-          dropdownIconPosition="right"
-          defaultButtonText="Selecione um animal  ▼"
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            indexAnimalSelect = index;
-            return selectedItem;
-          }}
-          rowTextForSelection={(item, index) => {
-            indexAnimalSelect = index;
-            return item;
-          }}
-          buttonStyle={{ borderRadius: 10, width: "87%", marginTop: "30%" }}
-          buttonTextStyle={{ fontFamily: "PoppinsRegular" }}
-          rowTextStyle={{ fontFamily: "PoppinsRegular" }}
-          dropdownStyle={{
-            borderBottomRightRadius: 10,
-            borderBottomLeftRadius: 10,
-          }}
-        />
-
+          <Text
+            style={{
+              color: "#F33D3D",
+              fontFamily: "PoppinsSemiBold",
+              fontSize: 18,
+              marginTop: 20,
+              marginBottom: -30,
+              textAlign: "center",
+              marginHorizontal: 20,
+            }}
+          >
+            Nenhuma câmera cadastrada ou ativada para o Pet shop
+          </Text>
+        ) : null}
+        {errorExistingAccess ? (
+          <Text
+            style={{
+              color: "#F33D3D",
+              fontFamily: "PoppinsSemiBold",
+              fontSize: 18,
+              marginTop: 20,
+              marginBottom: -30,
+              textAlign: "center",
+              marginHorizontal: 20,
+            }}
+          >
+            O animal escolhido já possui uma liberação de imagens em andamento
+          </Text>
+        ) : null}
+        {errorGeneric ? (
+          <Text
+            style={{
+              color: "#F33D3D",
+              fontFamily: "PoppinsSemiBold",
+              fontSize: 18,
+              marginTop: 20,
+              marginBottom: -30,
+              textAlign: "center",
+            }}
+          >
+            Error, tente novamente mais tarde
+          </Text>
+        ) : null}
+        {emptyAnimals ? (
+          <Text
+            style={{
+              color: "#F33D3D",
+              fontFamily: "PoppinsSemiBold",
+              fontSize: 18,
+              marginTop: 20,
+              marginBottom: -30,
+              textAlign: "center",
+              marginHorizontal: 20
+            }}
+          >
+            Nenhum animal cadastrado para esse cliente
+          </Text>
+        ) : (
+          <SelectDropdown
+            data={names}
+            dropdownIconPosition="right"
+            defaultButtonText="Selecione um animal  ▼"
+            onSelect={(selectedItem, index) => {
+              console.log(selectedItem, index);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              indexAnimalSelect = index;
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              indexAnimalSelect = index;
+              return item;
+            }}
+            buttonStyle={{ borderRadius: 10, width: "87%", marginTop: "30%" }}
+            buttonTextStyle={{ fontFamily: "PoppinsRegular" }}
+            rowTextStyle={{ fontFamily: "PoppinsRegular" }}
+            dropdownStyle={{
+              borderBottomRightRadius: 10,
+              borderBottomLeftRadius: 10,
+            }}
+          />
+        )}
+        
         <Pressable
           style={styles.button}
           onPress={() => goHomeAndUnlockImage(idsAnimals[indexAnimalSelect])}

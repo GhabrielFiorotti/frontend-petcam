@@ -16,17 +16,14 @@ import { Appbar } from "react-native-paper";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
 import { useNavigation } from "@react-navigation/native";
 
 export default function BlockImageClient() {
   const navigation = useNavigation();
 
-
-  const goBack = () =>{
-    navigation.navigate("HomePetShop")
-  }
-
+  const goBack = () => {
+    navigation.navigate("HomePetShop");
+  };
 
   const [searchText, setSearchText] = useState("");
   const [list, setList] = useState(animalsImageUnlocked);
@@ -89,7 +86,7 @@ export default function BlockImageClient() {
     <SafeAreaView style={styles.container}>
       <Appbar.Header style={{ backgroundColor: "#d9d9d9" }}>
         <Appbar.BackAction
-          style={{ alignItems: "center", paddingBottom: 10}}
+          style={{ alignItems: "center", paddingBottom: 10 }}
           onPress={() => goBack()}
         />
         <Appbar.Content
@@ -101,22 +98,6 @@ export default function BlockImageClient() {
           style={{ marginLeft: -10, marginBottom: 10 }}
         />
       </Appbar.Header>
-      <View style={styles.searchArea}>
-        <TextInput
-          style={styles.input}
-          placeholder="Pesquise um cliente"
-          placeholderTextColor="#888"
-          value={searchText}
-          onChangeText={(t) => setSearchText(t)}
-        />
-        <TouchableOpacity onPress={handleOrderClick} style={styles.orderButton}>
-          <MaterialCommunityIcons
-            name="order-alphabetical-ascending"
-            size={32}
-            color="#6594FE"
-          />
-        </TouchableOpacity>
-      </View>
 
       {errorApi ? (
         <Text
@@ -131,7 +112,27 @@ export default function BlockImageClient() {
         >
           Nenhum animal liberado
         </Text>
-      ) : null}
+      ) : (
+        <View style={styles.searchArea}>
+          <TextInput
+            style={styles.input}
+            placeholder="Pesquise um cliente"
+            placeholderTextColor="#888"
+            value={searchText}
+            onChangeText={(t) => setSearchText(t)}
+          />
+          <TouchableOpacity
+            onPress={handleOrderClick}
+            style={styles.orderButton}
+          >
+            <MaterialCommunityIcons
+              name="order-alphabetical-ascending"
+              size={32}
+              color="#6594FE"
+            />
+          </TouchableOpacity>
+        </View>
+      )}
       <FlatList
         data={list}
         style={styles.list}

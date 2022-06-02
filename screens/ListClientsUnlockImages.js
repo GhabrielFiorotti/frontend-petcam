@@ -90,22 +90,7 @@ export default function ListClientsUnlockImages({ navigation }) {
           style={{ marginLeft: -10, marginBottom: 10 }}
         />
       </Appbar.Header>
-      <View style={styles.searchArea}>
-        <TextInput
-          style={styles.input}
-          placeholder="Pesquise um animal"
-          placeholderTextColor="#888"
-          value={searchText}
-          onChangeText={(t) => setSearchText(t)}
-        />
-        <TouchableOpacity onPress={handleOrderClick} style={styles.orderButton}>
-          <MaterialCommunityIcons
-            name="order-alphabetical-ascending"
-            size={32}
-            color="#6594FE"
-          />
-        </TouchableOpacity>
-      </View>
+      
       {errorApi ? (
         <Text
           style={{
@@ -119,7 +104,22 @@ export default function ListClientsUnlockImages({ navigation }) {
         >
           Nenhum usuário cadastrado
         </Text>
-      ) : null}
+      ) : <View style={styles.searchArea}>
+      <TextInput
+        style={styles.input}
+        placeholder="Pesquise um cliente"
+        placeholderTextColor="#888"
+        value={searchText}
+        onChangeText={(t) => setSearchText(t)}
+      />
+      <TouchableOpacity onPress={handleOrderClick} style={styles.orderButton}>
+        <MaterialCommunityIcons
+          name="order-alphabetical-ascending"
+          size={32}
+          color="#6594FE"
+        />
+      </TouchableOpacity>
+    </View>}
       <FlatList
         data={list}
         style={styles.list}
