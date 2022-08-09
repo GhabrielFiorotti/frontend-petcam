@@ -28,14 +28,13 @@ export default function Login({ navigation }) {
   //const [successfulLogin, setLogin] = useState();
 
   async function  validLogin(){
-
-
-    var responseAxios = await axios.post('http://cameratcc.ddns.net:3000/users/login', {
+    var responseAxios = await axios.post('http://52.91.224.249:3000/users/login', {
       nome_usuario: username,
       password: password,
       tipo_usuario:"C"
     })
     .then(function (response) {
+      
       console.log(response.data)
       AsyncStorage.setItem('DATA_KEY', JSON.stringify(response.data));
       return true;

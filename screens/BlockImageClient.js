@@ -36,7 +36,7 @@ export default function BlockImageClient() {
     async function getInfo() {
       var config = {
         method: "get",
-        url: `http://cameratcc.ddns.net:3000/petshop/list_acess/${dataCache.id}`,
+        url: `http://52.91.224.249:3000/petshop/list_acess/${dataCache.id}`,
         headers: {
           Authorization: `Bearer ${dataCache.token}`,
         },
@@ -51,6 +51,7 @@ export default function BlockImageClient() {
       }
     }
     var dataImagesUnlock = await getInfo();
+    console.log(dataImagesUnlock)
 
     setAnimalsImageUnlocked(dataImagesUnlock);
 
@@ -139,7 +140,7 @@ export default function BlockImageClient() {
         renderItem={({ item }) => (
           <ListAnimalByClientWithImageUnlock data={item} />
         )}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id_animal}
       />
     </SafeAreaView>
   );

@@ -11,7 +11,7 @@ const ListAnimalByClientWithImageUnlock = ({ data }) => {
     const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
     var config = {
       method: "put",
-      url: `http://cameratcc.ddns.net:3000/camera/block-acess/${dataCache.id}/${id}`,
+      url: `http://52.91.224.249:3000/camera/block-acess/${dataCache.id}/${id}`,
       headers: {
         Authorization:
           `Bearer ${dataCache.token}`,

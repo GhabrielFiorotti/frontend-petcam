@@ -42,7 +42,7 @@ export default function SelectAnimalOfClient({ route, navigation }) {
     const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
     var config = {
       method: "post",
-      url: `http://cameratcc.ddns.net:3000/camera/grant-acess/${dataCache.id}/${idAnimal}`,
+      url: `http://52.91.224.249:3000/camera/grant-acess/${dataCache.id}/${idAnimal}`,
       headers: {
         Authorization: `Bearer ${dataCache.token}`,
       },
@@ -154,7 +154,7 @@ export default function SelectAnimalOfClient({ route, navigation }) {
         {emptyAnimals ? (
           <Text
             style={{
-              color: "#F33D3D",
+              color: "#6594FE",
               fontFamily: "PoppinsSemiBold",
               fontSize: 18,
               marginTop: 20,
@@ -163,7 +163,7 @@ export default function SelectAnimalOfClient({ route, navigation }) {
               marginHorizontal: 20
             }}
           >
-            Nenhum animal cadastrado para esse cliente
+            Você não possui animais cadastrados pelo pet shop
           </Text>
         ) : (
           <SelectDropdown

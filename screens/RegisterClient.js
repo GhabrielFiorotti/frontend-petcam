@@ -42,7 +42,7 @@ export default function Login() {
   
     var config = {
       method: "post",
-      url: "http://cameratcc.ddns.net:3000/users/signup",
+      url: "http://52.91.224.249:3000/users/signup",
       headers: {
         Authorization: `Bearer ${dataCache.token}`,
         "Content-Type": "application/json",

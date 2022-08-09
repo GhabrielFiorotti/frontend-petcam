@@ -33,13 +33,13 @@ export default function RegisterPet({ navigation }) {
     var data = JSON.stringify({
       id_cliente: id_cliente,
       nome: name,
-      raca: gender,
-      sexo: breed,
+      raca: breed,
+      sexo: gender,
     });
 
     var config = {
       method: "post",
-      url: "http://cameratcc.ddns.net:3000/petshop/pet",
+      url: "http://52.91.224.249:3000/petshop/pet",
       headers: {
         Authorization: `Bearer ${dataCache.token}`,
         "Content-Type": "application/json",
@@ -61,7 +61,7 @@ export default function RegisterPet({ navigation }) {
     const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
     var config = {
       method: "get",
-      url: `http://cameratcc.ddns.net:3000/users/${user}`,
+      url: `http://52.91.224.249:3000/users/${user}`,
       headers: {
         Authorization: `Bearer ${dataCache.token}`,
       },

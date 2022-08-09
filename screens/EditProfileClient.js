@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect }  from "react";
 import {
   View,
   Text,
@@ -21,6 +21,11 @@ export default function EditProfileClient({ navigation }) {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
 
+
+  const list = [];
+  const [json, setJson] = useState(list);
+  const [teste, setTeste] = useState("");
+
   const [errorApi, setErrorApi] = useState("");
 
   async function updateClient(email, password, fullName) {
@@ -37,7 +42,7 @@ export default function EditProfileClient({ navigation }) {
 
     var config = {
       method: "put",
-      url: "http://cameratcc.ddns.net:3000/users/update_profile",
+      url: "http://52.91.224.249:3000/users/update_profile",
       headers: {
         Authorization: `Bearer ${dataCache.token}`,
         "Content-Type": "application/json",
@@ -47,7 +52,6 @@ export default function EditProfileClient({ navigation }) {
 
     var response = axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
         return true;
       })
       .catch(function (error) {
@@ -65,6 +69,37 @@ export default function EditProfileClient({ navigation }) {
     } else navigation.navigate("HomeClient");
   };
 
+  useEffect(async () => {
+    async function getInfo() {
+      const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
+      var config = {
+        method: "get",
+        url: `http://52.91.224.249:3000/users/${dataCache.nome_usuario}`,
+        headers: {
+          Authorization: `Bearer ${dataCache.token}`,
+        },
+      };
+
+      const json = await axios(config)
+        .then(function (response) {
+          setErrorApi(false);
+
+          return response.data;
+        })
+        .catch(function (error) {
+          setErrorApi(true);
+          return [];
+        });
+
+      return json;
+    }
+
+    const json = await getInfo();
+
+    setJson(json);
+
+  }, [teste]);
+
   return (
     <View style={styles.containerPhoto}>
       <ImageRegister />
@@ -79,7 +114,7 @@ export default function EditProfileClient({ navigation }) {
           marginHorizontal: 20,
         }}
       >
-        Preencha somente os campos que deseja alterar
+        Prencha o campo de senha, apenas se deseja alterá-la
       </Text>
       {errorApi ? (
         <Text
@@ -99,18 +134,20 @@ export default function EditProfileClient({ navigation }) {
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
-          placeholder="nome completo"
+          placeholder={json.nome}
           placeholderTextColor="#6594FE"
           onChangeText={(fullName) => setFullName(fullName)}
+          defaultValue={json.nome}
         />
       </View>
 
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
-          placeholder="email"
+          placeholder={json.email}
           placeholderTextColor="#6594FE"
           onChangeText={(email) => setEmail(email)}
+          defaultValue={json.email}
         />
       </View>
 
@@ -160,6 +197,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     fontFamily: "PoppinsRegular",
     fontSize: 18,
+    color: "#6594FE"
   },
   inputView: {
     width: "90%",

@@ -32,7 +32,7 @@ export default function DisableCameraPetShop({ route, navigation }) {
 
     var config = {
       method: "put",
-      url: "http://cameratcc.ddns.net:3000/camera/change-status/",
+      url: "http://52.91.224.249:3000/camera/change-status/",
       headers: {
         Authorization:
         `Bearer ${dataCache.token}`,

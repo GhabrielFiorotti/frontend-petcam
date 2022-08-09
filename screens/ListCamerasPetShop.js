@@ -29,7 +29,7 @@ export default function ListCamerasPetShop({ navigation }) {
       const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
       var config = {
         method: "get",
-        url: `http://cameratcc.ddns.net:3000/camera/listall/${dataCache.id}`,
+        url: `http://52.91.224.249:3000/camera/listall/${dataCache.id}`,
         headers: {
           Authorization: `Bearer ${dataCache.token}`,
         },

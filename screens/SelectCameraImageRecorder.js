@@ -24,12 +24,11 @@ export default function SelectCameraImageRecorder({ navigation }) {
   const [teste, setTeste] = useState("");
   const [errorApi, setErrorApi] = useState("");
 
-
   const goSelectPet = async (nameCamera, urlRtsp, status, id_camera) => {
     const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
     var config = {
       method: "get",
-      url: `http://cameratcc.ddns.net:3000/petshop/pets/${dataCache.id}`,
+      url: `http://52.91.224.249:3000/petshop/pets/${dataCache.id}`,
       headers: {
         Authorization: `Bearer ${dataCache.token}`,
       },
@@ -40,15 +39,26 @@ export default function SelectCameraImageRecorder({ navigation }) {
         return response.data;
       })
       .catch(function (error) {
-        console.log(error);
+        return []
       });
 
-    navigation.navigate("SelectAnimalClientImageRecorder", {
-      animals: animalsClient,
-      id_petshop: dataCache.id_petshop,
-      id_camera: id_camera,
-      nameCamera: nameCamera
-    });
+    if (animalsClient.length == 0) {
+      navigation.navigate("SelectAnimalClientImageRecorder", {
+        animals: animalsClient,
+        id_petshop: dataCache.id_petshop,
+        id_camera: id_camera,
+        nameCamera: nameCamera,
+        emptyAnimals: true,
+      });
+    } else {
+      navigation.navigate("SelectAnimalClientImageRecorder", {
+        animals: animalsClient,
+        id_petshop: dataCache.id_petshop,
+        id_camera: id_camera,
+        nameCamera: nameCamera,
+        emptyAnimals: false,
+      });
+    }
   };
 
   useEffect(async () => {
@@ -56,7 +66,7 @@ export default function SelectCameraImageRecorder({ navigation }) {
       const dataCache = JSON.parse(await AsyncStorage.getItem("DATA_KEY"));
       var config = {
         method: "get",
-        url: `http://cameratcc.ddns.net:3000/camera/listall/${dataCache.id_petshop}`,
+        url: `http://52.91.224.249:3000/camera/listall/${dataCache.id_petshop}`,
         headers: {
           Authorization: `Bearer ${dataCache.token}`,
         },
@@ -78,11 +88,8 @@ export default function SelectCameraImageRecorder({ navigation }) {
 
     const json = await getInfo();
 
-
     setJson(json);
   }, [teste]);
-
-  
 
   const Item = ({ name, urlRtsp, status, id_camera }) => (
     <View>

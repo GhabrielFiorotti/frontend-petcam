@@ -30,7 +30,7 @@ export default function ListClientsUnlockImages({ navigation }) {
     async function getInfo() {
       var config = {
         method: "get",
-        url: `http://cameratcc.ddns.net:3000/petshop/clients/${dataCache.id}`,
+        url: `http://52.91.224.249:3000/petshop/clients/${dataCache.id}`,
         headers: {
           Authorization: `Bearer ${dataCache.token}`,
         },

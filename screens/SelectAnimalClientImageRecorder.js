@@ -20,11 +20,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SelectAnimalClientImageRecorder({route, navigation }) {
 
-  const { animals, id_petshop, id_camera, nameCamera} = route.params;
+  const { animals, id_petshop, id_camera, nameCamera, emptyAnimals} = route.params;
 
 
   var names = []
   var idsAnimals = []
+
+  console.log(animals)
   
 
   for (let index = 0; index < animals.length; index++) {
@@ -67,6 +69,21 @@ export default function SelectAnimalClientImageRecorder({route, navigation }) {
           style={{ marginLeft: -10, marginBottom: 10 }}
         />
       </Appbar.Header>
+      {emptyAnimals ? (
+          <Text
+            style={{
+              color: "#F33D3D",
+              fontFamily: "PoppinsSemiBold",
+              fontSize: 18,
+              marginTop: 20,
+              marginBottom: -30,
+              textAlign: "center",
+              marginHorizontal: 20
+            }}
+          >
+            Nenhum animal cadastrado para esse cliente
+          </Text>
+        ) : (
       <View
         style={{
           height: "100%",
@@ -110,6 +127,7 @@ export default function SelectAnimalClientImageRecorder({route, navigation }) {
           <Text style={styles.text}>Escolher animal</Text>
         </Pressable>
       </View>
+        )}
     </SafeAreaView>
   );
 }
